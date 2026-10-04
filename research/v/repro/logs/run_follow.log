@@ -1,0 +1,11 @@
+14:21:35 p3w-plain r1 exit 0 load 3.23
+14:21:40 p3w-busy r1 exit 0 load 3.29
+14:21:42 busybg r1 done
+14:21:44 p3w-plain r2 exit 0 load 3.29
+14:21:48 p3w-busy r2 exit 0 load 4.07
+14:21:51 busybg r2 done
+14:21:57 core rss run done
+14:22:00 p3pace16-cpu12_3024x1964 r1 exit 0 load 4.49
+14:22:02 p3pace16-cpu12_3024x1964 r2 exit 0 load 4.49
+14:22:05 p3pace16-cpu12_3024x1964 r3 exit 0 load 4.53
+14:22:05 follow done

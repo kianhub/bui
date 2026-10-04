@@ -1,0 +1,429 @@
+<title>Can zui be written in Bend?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: one reading column for prose, a wider measure for tables and charts. The Bend / Objective-C / Metal lanes carry the color system; budget status uses separate semantic colors. */
+:root {
+  --bg: #f3f5f4;
+  --surface: #ffffff;
+  --ink: #15201b;
+  --muted: #5b6b64;
+  --line: #d6dfdb;
+  --bend: #0b7468;
+  --bend-soft: #d7ede9;
+  --native: #a85d17;
+  --native-soft: #f4e4d3;
+  --msl: #5a4fb0;
+  --msl-soft: #e3e0f5;
+  --ok: #2e7a36;
+  --warn: #a8700f;
+  --bad: #b03636;
+  --display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0e1412; --surface: #151d1a; --ink: #e3ebe7; --muted: #93a39c; --line: #2a3531;
+    --bend: #3fc2b0; --bend-soft: #123631; --native: #e39a55; --native-soft: #3a2614;
+    --msl: #9d93f0; --msl-soft: #262246; --ok: #63b96a; --warn: #e2aa48; --bad: #e46a6a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0e1412; --surface: #151d1a; --ink: #e3ebe7; --muted: #93a39c; --line: #2a3531;
+  --bend: #3fc2b0; --bend-soft: #123631; --native: #e39a55; --native-soft: #3a2614;
+  --msl: #9d93f0; --msl-soft: #262246; --ok: #63b96a; --warn: #e2aa48; --bad: #e46a6a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; }
+.page { max-width: 1060px; margin: 0 auto; padding-inline: 20px; padding-block: 40px 80px; display: grid; gap: 56px; }
+.prose { max-width: 680px; }
+.stack { display: grid; gap: 14px; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.15; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); font-weight: 700; letter-spacing: -0.01em; }
+h2 { font-size: 1.6rem; font-weight: 600; }
+h3 { font-size: 1.1rem; font-weight: 600; }
+p { margin: 0; }
+section { display: grid; gap: 18px; min-width: 0; }
+.eyebrow { font-family: var(--display); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+code { font-family: var(--mono); font-size: 0.84em; background: var(--bend-soft); color: var(--ink); padding: 0.05em 0.35em; border-radius: 4px; }
+a { color: var(--bend); }
+a:focus-visible, summary:focus-visible { outline: 2px solid var(--bend); outline-offset: 2px; }
+.muted { color: var(--muted); }
+.small { font-size: 0.88rem; }
+
+header { display: grid; gap: 20px; }
+.verdict { display: inline-flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 600; font-size: 1rem;
+  background: var(--bend-soft); color: var(--bend); padding: 6px 14px; border-radius: 999px; justify-self: start; }
+.verdict::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--bend); }
+.lead { font-size: 1.16rem; line-height: 1.55; max-width: 700px; }
+
+.tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; }
+.tile { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; display: grid; gap: 6px; align-content: start; }
+.tile .num { font-family: var(--display); font-size: 1.7rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tile .lbl { font-size: 0.9rem; line-height: 1.4; }
+.tile .src { font-family: var(--display); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.tile.bend .num { color: var(--bend); }
+.tile.bad .num { color: var(--bad); }
+
+.lane { display: inline-block; font-family: var(--display); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase;
+  padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+.lane.bend { background: var(--bend-soft); color: var(--bend); }
+.lane.native { background: var(--native-soft); color: var(--native); }
+.lane.msl { background: var(--msl-soft); color: var(--msl); }
+
+.split { display: grid; gap: 14px; }
+.split-row { display: grid; grid-template-columns: 170px 1fr; gap: 14px; align-items: center; }
+.split-row .name { font-family: var(--display); font-weight: 600; font-size: 0.92rem; line-height: 1.3; }
+.split-row .name small { display: block; font-weight: 500; color: var(--muted); font-size: 0.76rem; }
+.bar { display: flex; height: 30px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.bar span { display: flex; align-items: center; padding-inline: 8px; font-family: var(--display); font-size: 0.78rem; font-weight: 600; white-space: nowrap; overflow: hidden; color: var(--surface); }
+.bar .b { background: var(--bend); }
+.bar .n { background: var(--native); }
+.bar .m { background: var(--msl); }
+.bar .r { background: var(--muted); }
+.bar .gap { background: repeating-linear-gradient(135deg, var(--line) 0 6px, transparent 6px 12px); color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--display); font-size: 0.8rem; color: var(--muted); }
+.legend i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+
+.steps { display: grid; border-top: 1px solid var(--line); }
+.step { display: grid; grid-template-columns: 34px 92px 1fr; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+.step .n { font-family: var(--display); font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+.step p { min-width: 0; }
+
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; line-height: 1.45; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+th { font-family: var(--display); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); font-weight: 600; background: var(--bg); }
+tr:last-child td { border-bottom: 0; }
+td.num { font-variant-numeric: tabular-nums; }
+tr.pick td { background: var(--bend-soft); }
+tr.pick td:first-child { box-shadow: inset 3px 0 0 var(--bend); }
+.paths { min-width: 940px; }
+.paths td:first-child { font-family: var(--display); font-weight: 600; white-space: nowrap; }
+.design { min-width: 760px; }
+.design td:first-child { width: 27%; }
+.design td:nth-child(2) { width: 28%; }
+
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 20px 20px 14px; display: grid; gap: 10px; min-width: 0; }
+.crow { display: grid; grid-template-columns: minmax(150px, 230px) 1fr; gap: 14px; align-items: center; }
+.crow .clabel { font-family: var(--display); font-size: 0.86rem; line-height: 1.3; }
+.crow .clabel small { display: block; color: var(--muted); font-size: 0.76rem; }
+.track { position: relative; height: 26px; }
+.fill { position: absolute; left: 0; top: 3px; bottom: 3px; border-radius: 4px; }
+.fill.ok { background: var(--ok); } .fill.warn { background: var(--warn); } .fill.bad { background: var(--bad); }
+.val { position: absolute; top: 0; line-height: 26px; font-family: var(--display); font-size: 0.8rem; font-weight: 600; font-variant-numeric: tabular-nums; padding-left: 6px; white-space: nowrap; }
+.val.inside { transform: translateX(-100%); padding-left: 0; padding-right: 6px; color: var(--surface); }
+.mark { position: absolute; top: -4px; bottom: -4px; border-left: 1.5px dashed var(--muted); }
+.axis { display: grid; grid-template-columns: minmax(150px, 230px) 1fr; gap: 14px; }
+.axis .ticks { position: relative; height: 34px; font-family: var(--display); font-size: 0.74rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+.axis .ticks span { position: absolute; transform: translateX(-50%); white-space: nowrap; top: 0; }
+.axis .ticks span.budget { top: 16px; color: var(--ink); font-weight: 600; }
+.budgetbar { position: relative; display: flex; height: 34px; border-radius: 6px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+.budgetbar span { display: flex; align-items: center; justify-content: center; font-family: var(--display); font-size: 0.76rem; font-weight: 600; color: var(--surface); white-space: nowrap; overflow: hidden; }
+
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px 20px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+ul.tight { margin: 0; padding-left: 1.1em; display: grid; gap: 8px; }
+.callout { border-left: 3px solid var(--native); padding: 4px 0 4px 16px; }
+
+.status { display: inline-block; font-family: var(--display); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 7px; border-radius: 4px; white-space: nowrap; }
+.status.c { background: var(--bend-soft); color: var(--bend); }
+.status.r { background: var(--native-soft); color: var(--native); }
+.status.x { background: var(--native-soft); color: var(--bad); }
+.status.n { background: var(--msl-soft); color: var(--msl); }
+.status.e { background: var(--bg); color: var(--muted); border: 1px solid var(--line); }
+
+.review { display: grid; gap: 0; border-top: 1px solid var(--line); }
+.rv { display: grid; grid-template-columns: 1fr 1.1fr; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.rv h3 { font-size: 0.98rem; }
+.rv .who { font-family: var(--display); font-size: 0.74rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+.rv p { font-size: 0.95rem; }
+
+details { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+details > summary { cursor: pointer; padding: 14px 18px; font-family: var(--display); font-weight: 600; }
+details[open] > summary { border-bottom: 1px solid var(--line); }
+details .scroll { border: 0; border-radius: 0 0 10px 10px; }
+
+footer { font-size: 0.88rem; color: var(--muted); display: grid; gap: 8px; max-width: 760px; }
+
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .page { padding-inline: 16px; gap: 44px; }
+  .split-row, .crow, .axis, .rv { grid-template-columns: 1fr; gap: 6px; }
+  .axis > div:first-child { display: none; }
+  .step { grid-template-columns: 26px 1fr; }
+  .step .lane, .step p { grid-column: 2; justify-self: start; }
+}
+</style>
+
+<div class="page">
+
+<header>
+  <div class="eyebrow">Feasibility study, 4 October 2026. zui at 667d0aa, Bend 2.0.35 at 565d7fd</div>
+  <h1>Can zui be written in Bend?</h1>
+  <div class="verdict">Viable, but not fully in Bend</div>
+  <p class="lead">Not fully, and not as a fork in the sense zui is one. A GPUI-style framework whose logic is Bend is viable. That logic covers the element tree, layout, text wrapping, hit testing, input dispatch, entity state and the scene. Bend source cannot call native APIs, so the window, input, IME, clipboard and CoreText calls must be an Objective-C layer of several thousand lines that Bend imports as effects. The pixels should be shaded by a Metal pipeline that draws the Bend-built scene. That design is path P3. In a real Retina window it held 120 Hz on 98.6% of frames. When Bend code shaded the same frame itself, it ran at about 56 Hz.</p>
+  <div class="tiles">
+    <div class="tile bend"><div class="num">70–85%</div><div class="lbl">of the macOS framework would be Bend under P3, by attributing zui's modules. zui itself is about 98% Rust by the same count.</div><div class="src">Estimate</div></div>
+    <div class="tile bend"><div class="num">0.65 ms</div><div class="lbl">P3 renderer per 3024×1964 frame with 256 cards and 2,000 glyphs, headless.</div><div class="src">Measured, reproduced, 3 × 95 frames</div></div>
+    <div class="tile bend"><div class="num">1.0–2.7 ms</div><div class="lbl">Bend framework core per frame at steady state, 2,000 to 5,000 elements, minimal element model.</div><div class="src">Measured, 2,000-frame runs</div></div>
+    <div class="tile bad"><div class="num">17.9 ms</div><div class="lbl">The same Retina frame when Bend code rasterizes it, full redraw, in a real window.</div><div class="src">Measured, 3 × 115 frames</div></div>
+  </div>
+</header>
+
+<section id="fully">
+  <h2>What "fully written in Bend" can honestly mean</h2>
+  <div class="prose stack">
+    <p>zui is called a Rust framework, and by line count it nearly is. Its macOS build is about 98% Rust and 2% Metal shaders. Its Cocoa, Metal and CoreText calls are Rust because Rust can call Objective-C directly.</p>
+    <p>Bend cannot do that. Native code enters a Bend program only through <code>.c</code> or <code>.js</code> files that a foreign effect imports, and only the event loop runs them. So every place where zui's Rust calls AppKit, Metal or CoreText becomes Objective-C in a Bend version. That is about 14,000 zui-equivalent lines. Shaders are not the gap, since zui ships them too.</p>
+    <p>The bars attribute zui's macOS framework (82,541 lines without tests, examples and tooling) to the language each part would be written in. The Bend share lands between 70% and 85% depending on where the boundary goes. It falls to about 69% if platform trait files, the executor and half the text system count as native. It rises to about 85% if taffy, the 22,150-line layout crate a Bend version must also write, counts as Bend. It is a share of responsibilities, not a count of lines anyone has written.</p>
+  </div>
+  <div class="split">
+    <div class="split-row"><div class="name">zui today<small>macOS build</small></div>
+      <div class="bar" role="img" aria-label="zui macOS: Rust 98.3 percent, MSL 1.7 percent"><span class="r" style="width:98.3%">Rust 98%</span><span class="m" style="width:1.7%"></span></div></div>
+    <div class="split-row"><div class="name">Bend version, P3<small>point estimate, range 70–85%</small></div>
+      <div class="bar" role="img" aria-label="P3: Bend about 82 percent, Objective-C about 13 percent, renderer and MSL about 5 percent"><span class="b" style="width:81.6%">Bend ~82%</span><span class="n" style="width:12.8%">ObjC ~13%</span><span class="m" style="width:5.6%"></span></div></div>
+    <div class="legend"><span><i style="background:var(--bend)"></i>Bend</span><span><i style="background:var(--native)"></i>Objective-C (window, input, IME, clipboard, CoreText, display link)</span><span><i style="background:var(--msl)"></i>Metal renderer and shaders</span><span><i style="background:var(--muted)"></i>Rust</span></div>
+  </div>
+</section>
+
+<section id="frame">
+  <h2>One frame, from keypress to pixels</h2>
+  <p class="prose">AppKit owns GPUI's loop and calls stored closures the moment an event arrives. A Bend program owns its own loop and pulls events once per frame. Every step below follows from that inversion.</p>
+  <div class="steps">
+    <div class="step"><span class="n">1</span><span class="lane native">ObjC</span><p>AppKit delivers key, mouse, scroll and IME events, and the native layer queues them. Typed text goes through <code>interpretKeyEvents</code> into an <code>NSTextInputClient</code> view. That view answers AppKit's synchronous questions from a snapshot Bend pushed last frame.</p></div>
+    <div class="step"><span class="n">2</span><span class="lane native">ObjC</span><p>A drain effect hands the queued events to Bend as one list.</p></div>
+    <div class="step"><span class="n">3</span><span class="lane bend">Bend</span><p>Dispatch. Mouse events hit-test against last frame's hitbox list. Keys walk the focus path and keymap, with multi-stroke state held in Bend. Each match yields a <code>Msg</code> value, not a closure call.</p></div>
+    <div class="step"><span class="n">4</span><span class="lane bend">Bend</span><p><code>update(msg, store)</code> rewrites state. Entities are U32 ids into an <code>Array</code> slot table, threaded linearly through the frame.</p></div>
+    <div class="step"><span class="n">5</span><span class="lane bend">Bend</span><p><code>view(state)</code> builds the element tree as a closed sum type, such as <code>Div | Text | Img | List | UniformList</code>.</p></div>
+    <div class="step"><span class="n">6</span><span class="lane native">ObjC</span><p>Text runs missing from the shape cache go to CoreText in one effect call. That costs 0.36 ms for 2,000 characters, or about 10 µs per changed line (measured).</p></div>
+    <div class="step"><span class="n">7</span><span class="lane bend">Bend</span><p>Layout. A bottom-up measure pass, greedy word wrap over cached advances, then a top-down place pass for a flexbox subset.</p></div>
+    <div class="step"><span class="n">8</span><span class="lane bend">Bend</span><p>Paint emits a flat scene (a quad list and a glyph list), the hitbox list, and the IME snapshot for step 1.</p></div>
+    <div class="step"><span class="n">9</span><span class="lane msl">Metal</span><p>The present effect walks the scene lists, encodes instanced draws, and the shaders compute rounded-rect SDFs and borders with hardware blending. The prototype read every field in place from Bend's heap and blocked until the GPU finished. A production version should copy the scene into a packed buffer instead.</p></div>
+    <div class="step"><span class="n">10</span><span class="lane bend">Bend</span><p>If nothing changed, block in a wait bounded by Bend's next timer instead of redrawing. That cut idle cost from 13% of a core and 57% GPU use to 1% and 3% (measured). End each frame with <code>IO.sleep(0)</code> so timers and channels run.</p></div>
+  </div>
+</section>
+
+<section id="design">
+  <h2>Where Bend forces a different design</h2>
+  <p class="prose">Each row is a GPUI mechanism that Bend 2 cannot copy, and the replacement that ran in this study.</p>
+  <div class="scroll"><table class="design">
+    <thead><tr><th>GPUI does</th><th>Why Bend cannot</th><th>Bend version, and its evidence</th></tr></thead>
+    <tbody>
+      <tr><td>Stores listeners as <code>Rc&lt;dyn Fn&gt;</code> and calls them on every event (<code>div.rs:575</code>).</td><td>Closures are affine. A closure can be called at most once, and a record holding one cannot be shared (<code>GUIDE.md:83</code>).</td><td>Nodes carry <code>Msg</code> values and one top-level <code>update</code> interprets them. Ran with identical output on the JS and native lanes.</td></tr>
+      <tr><td>Erases element types with traits (<code>AnyElement</code>, <code>dyn Action</code>).</td><td>No traits, type classes or macros.</td><td>A closed sum of element kinds plus a <code>Custom{kind, data}</code> arm. A 739-line sketch with 20 kinds, flex layout and hit testing type-checks with no <code>@unsafe</code>.</td></tr>
+      <tr><td>Keeps entities in a ref-counted map and leases them out.</td><td>Values have one owner. No <code>Rc</code>, no <code>Drop</code>.</td><td>A U32 slot table in Base <code>Array</code>, released explicitly. GPUI's lease pattern maps over because Bend already takes and reinserts.</td></tr>
+      <tr><td>Calls CoreText from inside taffy's measure closure.</td><td>Effects cannot run inside pure layout.</td><td>A staged frame. Collect unshaped runs, shape them in one effect, then lay out. Measured at 0.36 ms per 2,000 characters. The cache lookup itself is unmeasured and could cost about 2 ms per frame at 1,250 text rows with String keys.</td></tr>
+      <tr><td>Answers <code>NSTextInputClient</code> queries by calling into the app synchronously.</td><td>No supported way for C to call Bend (no native library target, #813).</td><td>A per-frame snapshot the native view answers from. Typed text, shifted keys and dead keys arrived correctly on the German layout. A composition that stays open across frames, and real Japanese or Chinese input, were not tested.</td></tr>
+      <tr><td>Uses <code>i32</code>, <code>u64</code> and <code>f64</code>.</td><td>Only <code>Nat</code>, <code>U32</code> and <code>F32</code>. No signed U32 operations.</td><td>Two's-complement helpers. Nat ids hold up to 2<sup>48</sup>−1 and fail-stop beyond.</td></tr>
+      <tr><td>Generates about 114 Tailwind-style style methods with macros.</td><td>No macros beyond compile-time templates.</td><td>Generate them as Bend source with a script.</td></tr>
+      <tr><td>Runs inside <code>[NSApp run]</code> and draws during live resize.</td><td>Bend's event loop owns the process, and AppKit's nested resize and menu loops run inside a native call.</td><td>A custom frame loop instead of <code>App.run</code>. Frames stall during live resize and menu tracking unless C calls back into Bend through an unsupported runtime hack. Not prototyped.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="paths">
+  <h2>Five paths compared</h2>
+  <p class="prose">P1 uses only what Bend ships. P2 and P3 are rewrites that differ in who shades the pixels. P4 and P5 are bindings in the style of <a href="https://github.com/remorses/gpuix">gpuix</a>, which wraps native GPUI.</p>
+
+  <div class="chart" role="img" aria-label="Frame cost at Retina size for each rendering path, against the 120 and 60 hertz budgets">
+    <h3>Render cost at 3024×1964, 256 cards and 2,000 glyphs</h3>
+    <p class="small muted">Headless render, present and drop, median and range of run medians, before the framework core. Dashed lines are the 8.33 ms (120 Hz) and 16.67 ms (60 Hz) budgets.</p>
+    <div id="bars"></div>
+    <div class="axis"><div></div><div class="ticks" id="ticks"></div></div>
+    <div class="legend"><span><i style="background:var(--ok)"></i>fits 120 Hz</span><span><i style="background:var(--warn)"></i>fits 60 Hz</span><span><i style="background:var(--bad)"></i>misses 60 Hz</span></div>
+  </div>
+
+  <div class="chart">
+    <h3>A P3 frame at 5,000 elements, on the critical path</h3>
+    <p class="small muted">An estimate assembled from measured parts that have not yet run together. The prototype blocks Bend while the GPU works, so the in-window GPU time counts in full. That time is the p90, because the GPU clocks down between frames and overlaps with the window compositor.</p>
+    <div class="budgetbar" role="img" aria-label="Estimated P3 frame: Bend core 2.7 milliseconds, GPU 3.5 milliseconds, wait 0.2 milliseconds, of an 8.33 millisecond budget">
+      <span style="width:32.4%;background:var(--bend)">Bend core 2.7</span>
+      <span style="width:42%;background:var(--msl)">GPU p90 3.5</span>
+      <span style="width:2.4%;background:var(--native)"></span>
+      <span style="width:23.2%;background:transparent;color:var(--muted)">left 1.9 ms</span>
+    </div>
+    <p class="small muted">About 6.4 of 8.33 ms, before CoreText misses and shape-cache lookups. Copying the scene to a packed buffer and not waiting on the GPU would take the 3.5 ms off Bend's path. The copy is unmeasured.</p>
+  </div>
+
+  <div class="scroll"><table class="paths">
+    <thead><tr><th>Path</th><th>Bend writes</th><th>Native code</th><th>Measured</th><th>Blockers</th><th>Effort</th><th>Bend share</th></tr></thead>
+    <tbody>
+      <tr><td>P1 Stock Base</td><td>Everything</td><td>Only Base's own <code>window.c</code></td><td class="num">8.3 ms at 1x, vsync-capped</td><td>Fixed-size 1x window, no typed text or IME, 24-bit color with no alpha, no real fonts</td><td>Weeks to a demo. Parity impossible.</td><td>100%, but a toy</td></tr>
+      <tr><td>P2-CPU</td><td>Core, rasterizer, glyph atlas</td><td>The same Objective-C layer as P3</td><td class="num">17.9 ms full redraw in a 2x window. 8.3–8.5 ms with damage tracking for small changes</td><td>Needs damage tracking to hold 120 Hz at Retina. Full-screen changes run near 56 Hz. No alpha, blur or MSAA in a 24-bit quadtree.</td><td>P3's work, plus a Bend rasterizer and damage tracking</td><td>Same native layer, Bend shaders</td></tr>
+      <tr><td>P2-GPU</td><td>Same, rasterizer on <code>!</code></td><td>The same Objective-C layer</td><td class="num">24.2 ms at 2x headless. 52–106 ms incremental</td><td>Bend's GPU scheduler idles lanes on sparse, mostly flat UI frames. Idle gaps slow it 3–4×.</td><td>Same as P2-CPU</td><td>Same as P2-CPU</td></tr>
+      <tr class="pick"><td>P3 Recommended</td><td>Core, scene, IME state, shape cache</td><td>Objective-C layer plus a Metal renderer. The prototype has 61 lines of MSL; zui's renderer is 4,638 lines.</td><td class="num">0.42–0.65 ms headless. 120 Hz on 98.6% of 345 frames in a 2x window, worst 17.7 ms</td><td>Core and renderer not yet integrated. A resizable HiDPI window on stock Bend is unbuilt (the test used PR #1108's patch). Live resize stalls frames. macOS only.</td><td>Months (guess)</td><td>70–85%</td></tr>
+      <tr><td>P4 Bind zui</td><td>Model, update, view emitting mutations</td><td>All of zui, 301 crates, plus a Rust C-ABI shim</td><td class="num">Not measured</td><td>zui's macOS run loop blocks. Needs a patched <code>gpui_macos</code> like gpuix's fork. No C-to-Bend calls.</td><td>1–3 months to a demo (guess)</td><td>0% of the framework</td></tr>
+      <tr><td>P5 Bend in JS</td><td>Pure model, update, view as <code>.mjs</code></td><td>JS host, gpuix, forked GPUI</td><td class="num">Not measured</td><td>The JS lane is single-core. The host language is JS.</td><td>Days</td><td>0%</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="cols">
+    <div class="card">
+      <h3>Why P3</h3>
+      <ul class="tight">
+        <li>It is the only path that held 120 Hz at Retina with full redraws, so it needs no damage tracking, which is the hardest part of P2.</li>
+        <li>Hardware blending gives alpha and antialiased edges. Blur, shadow and path pipelines can be ported from zui's <code>metal_renderer.rs</code> and <code>shaders.metal</code>.</li>
+        <li>It needs no <code>!</code> anywhere, which avoids every GPU-lane trap this study hit.</li>
+        <li>Build it with a packed-copy scene buffer, the way GPUI does. That frees the shaders from Bend's internal heap layout and lets CPU and GPU work overlap.</li>
+        <li>Keep a Bend rasterizer (P2-CPU) as the fallback where Metal is absent, such as Linux on X11.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Why not Bend on the GPU</h3>
+      <p>Bend can rasterize on the GPU. Its Slash Boss demo reproduced its documented 8 ms frame here, at 7.2–8.3 ms over 3 × 1,192 frames. UI frames are the wrong shape for it. They are mostly flat, so the parallel work tree is sparse and GPU lanes sit idle. GPU render took 23.9 ms at 4 cards and 5.3 ms at 4,096 cards. Retina multiplies that cost. The framework core cannot run on <code>!</code> at all. Layout took 14.4 ms at 501 elements and then hit a stack overflow at 2,001.</p>
+    </div>
+  </div>
+</section>
+
+<section id="gpuix">
+  <h2>Is this "a gpuix for Bend"?</h2>
+  <div class="prose stack">
+    <p>Only in purpose. gpuix gives JavaScript a GPUI front end, but it is a binding. It is a 26,125-line Rust napi crate over a GPUI fork (<code>remorses/zed</code>, branch <code>gpuix</code>), driven by a JS reconciler. Every non-Rust GPUI front end found works the same way, including gpui-moonbit and gpui-react. None of them reimplements GPUI.</p>
+    <p>zui has a different shape. It is one squashed commit that copies GPUI's source with Zed's crate paths kept, so upstream patches still apply with <code>git format-patch | git apply</code>. A Bend version cannot copy that, because no Rust patch applies to Bend source. It would be a GPUI-inspired reimplementation that follows upstream design changes by hand.</p>
+    <p>If you want apps written in Bend with GPUI's exact pixels, the binding paths (P4, P5) get there faster, and none of the framework is Bend. If you want the framework itself in Bend, take P3.</p>
+  </div>
+</section>
+
+<section id="risks">
+  <h2>Risks</h2>
+  <div class="cols">
+    <div class="card">
+      <h3>What could kill it</h3>
+      <ul class="tight">
+        <li><strong>Upstream churn with no ABI promise.</strong> This is the most likely failure. Bend's effect C API is internal by design, and open PR #1281 changes <code>io_eff</code>'s signature. Base constructor names are global, and Base's new <code>Scroll</code> broke backplane-bend within a week. Pin a Bend commit and keep the native layer behind a packed-copy boundary.</li>
+        <li><strong>Text-heavy frames.</strong> The core timed here uses a fixed advance table and one counter of state. Real shape-cache lookups over String keys, larger glyphs and a real atlas are unmeasured, and they eat the 1.9 ms left in the frame estimate.</li>
+        <li><strong>Allocator slowdown (#1007).</strong> It reproduces at HEAD, 2.7× slower on 1 thread and 18× on 12, and it grows with per-frame String churn. The core rebuilding 80,000 characters per frame settled after 200 frames with flat memory over 2,000 frames. Runs longer than 17 seconds were not tested.</li>
+        <li><strong>Text editing depth.</strong> IME compositions open across frames, CJK input, candidate-window placement and reconversion are untested.</li>
+        <li><strong>Build loop.</strong> No incremental builds, and the JS lane cannot open a window. A 47k-line Bend program took 107 s and 8.6 GB to build natively.</li>
+        <li><strong>Reach.</strong> P3 is macOS only. Bend has no Vulkan lane (#811) and does not run on Windows (#788).</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Upstream changes that would help</h3>
+      <ul class="tight">
+        <li><a href="https://github.com/bendlang/bend/pull/1108">PR #1108</a> adds resizable windows, a <code>Resize</code> event and backing scale. It is open, labeled <code>later</code>, and no longer applies cleanly.</li>
+        <li><a href="https://github.com/bendlang/bend/issues/813">#813</a>, a native library target, would make C-to-Bend calls supported. That would fix live resize and synchronous IME queries.</li>
+        <li>U64 (#1027) and F64 (#1120) would map GPUI's ids and hashes directly. Both are listed as planned in <code>WONTFIX.txt</code>.</li>
+        <li>#825, user handle types, would give unforgeable window and renderer handles.</li>
+        <li>#1019 and #1022, typed text and IME in Base, would shrink the native layer.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout prose stack">
+    <p><strong>Effort is a guess.</strong> No framework-scale Bend project exists to calibrate against. The nearest is backplane-bend, a 17.7k-line Bend desktop UI written in 8 days by two people, with Claude co-authoring 132 of 229 commits. It is an app, not a framework, and it no longer type-checks under Bend 2.0.35.</p>
+    <p>Not built yet, even as prototypes: the core and renderer running together, a glyph atlas texture, clipping and content masks, images, shadows, paths, scrolling with clip, async tasks and subscriptions, drag and drop, menus and accessibility.</p>
+  </div>
+</section>
+
+<section id="review">
+  <h2>What the adversarial review changed</h2>
+  <p class="prose">Three reviewers on Claude Opus, Fable and Sonnet got the same prompt and tried to break the verdict. Then one agent reproduced the headline numbers alone on the machine. The P3 ranking survived. These corrections are already applied above.</p>
+  <div class="review">
+    <div class="rv"><div><h3>"No missed frames" was false</h3><div class="who">All three reviewers, plus the reproduction</div></div><p>The first run had 1 of 345 frames over 12.5 ms, and the reproduction had 5 of 345, worst 17.7 ms. The page now says 98.6%.</p></div>
+    <div class="rv"><div><h3>Safety came from a blocking wait, not the type system</h3><div class="who">All three reviewers, confirmed by the reproduction</div></div><p>The prototype waits for the GPU before returning the scene to Bend. Without that wait, Bend would reuse the memory while the GPU reads it. The recommendation now says to copy the scene into a packed buffer.</p></div>
+    <div class="rv"><div><h3>The core and renderer never ran together</h3><div class="who">All three reviewers</div></div><p>They use different scene layouts, and the core emits 40 times more glyphs than the renderer was timed with. The old "about 3 ms" total became a labeled estimate of 6.4 ms on the critical path.</p></div>
+    <div class="rv"><div><h3>Core cost climbed within every run</h3><div class="who">Fable and Sonnet as critical, Opus as a warning</div></div><p>The reproduction ran 2,000 frames. Cost settles 12–26% above the first figures, then stays flat with flat memory. The page uses the settled numbers.</p></div>
+    <div class="rv"><div><h3>"82% Bend" was presented as a fact</h3><div class="who">All three reviewers</div></div><p>It depends on boundary choices and swings between 69% and 85%. The page now gives the range, the method, and zui's own 98% for comparison. The lead now answers "not fully".</p></div>
+    <div class="rv"><div><h3>The 2.55 ms in-window GPU time was called unexplained</h3><div class="who">Opus diagnosed it, the reproduction confirmed it</div></div><p>The GPU clocks down between vsync-paced frames and overlaps with the compositor. The fastest in-window frame matched headless. Because the prototype blocks, the p90 of 3.5 ms now counts in the frame estimate.</p></div>
+    <div class="rv"><div><h3>Effort numbers had no derivation</h3><div class="who">All three reviewers</div></div><p>Month ranges were removed from P3. The page now lists what is unbuilt instead.</p></div>
+    <div class="rv"><div><h3>Live resize, idle cost and open IME compositions</h3><div class="who">Opus on resize and IME, the critic on idle</div></div><p>Live resize and the open-composition case are now listed as untested risks. Idle cost was measured. Redrawing every vsync cost 13% of a core, and a timer-bounded wait cut that to 1%.</p></div>
+  </div>
+</section>
+
+<section id="ledger">
+  <h2>Evidence ledger</h2>
+  <p class="prose">Every load-bearing claim, its status after verification, and the number behind it. Measurements ran on an Apple M3 Pro with the user's apps open (load average 3–12, and up to 65% GPU use by other apps), so GPU figures are upper bounds.</p>
+  <details>
+    <summary>Show all 30 claims</summary>
+    <div class="scroll"><table>
+      <thead><tr><th>Claim</th><th>Status</th><th>Evidence</th></tr></thead>
+      <tbody id="ledger-body"></tbody>
+    </table></div>
+  </details>
+</section>
+
+<footer>
+  <p>Method. Four explorers read zui, Bend 2 and the prior art, ran Bend's window demos, and benchmarked the render path. Five skeptics then tried to refute each claim, and one benchmark agent ran alone. A completeness critic named the gaps, and a gap-filler built the core-timing, Retina, P3 and allocator prototypes. Reviewers on three models attacked the result, and a final agent reproduced the headline numbers alone.</p>
+  <p>Sources: <a href="https://github.com/zeronsh/zui">zeronsh/zui</a>, <a href="https://github.com/bendlang/bend">bendlang/bend</a> (formerly HigherOrderCO/Bend), <a href="https://github.com/remorses/gpuix">remorses/gpuix</a>, <a href="https://github.com/i2cjak/backplane-bend">i2cjak/backplane-bend</a>, <a href="https://github.com/aricarmo/godot-bend">aricarmo/godot-bend</a>, <a href="https://github.com/subtleGradient/bend-ui">subtleGradient/bend-ui</a>. The prototypes stay on the local machine.</p>
+</footer>
+</div>
+
+<script>
+(function () {
+  var MAX = 26;
+  var rows = [
+    { label: "P3 renderer", sub: "Metal draws the Bend scene", v: 0.65, range: "0.59–0.69" },
+    { label: "P2-CPU, damage tracking", sub: "hover on one card", v: 2.36, range: "2.02–3.99" },
+    { label: "P2-CPU, damage tracking", sub: "scrolling a text column", v: 7.96, range: "6.71–8.25" },
+    { label: "P2-CPU, full redraw", sub: "Bend rasterizer, CPU pool", v: 15.3, range: "15.1–15.4" },
+    { label: "P2-GPU, full redraw", sub: "Bend rasterizer on !", v: 24.2, range: "23.4–24.8" }
+  ];
+  function pct(v) { return (v / MAX * 100).toFixed(2) + "%"; }
+  var bars = document.getElementById("bars");
+  rows.forEach(function (r) {
+    var cls = r.v <= 8.33 ? "ok" : (r.v <= 16.67 ? "warn" : "bad");
+    var w = Math.max(r.v, 0.15);
+    var inside = r.v > 19;
+    var row = document.createElement("div");
+    row.className = "crow";
+    row.innerHTML = '<div class="clabel">' + r.label + '<small>' + r.sub + '</small></div>' +
+      '<div class="track"><span class="mark" style="left:' + pct(8.33) + '"></span><span class="mark" style="left:' + pct(16.67) + '"></span>' +
+      '<span class="fill ' + cls + '" style="width:' + pct(w) + '"></span>' +
+      '<span class="val' + (inside ? ' inside' : '') + '" style="left:' + pct(w) + '">' + r.v.toFixed(r.v < 1 ? 2 : 1) + ' ms <span style="font-weight:400;opacity:.75">(' + r.range + ')</span></span></div>';
+    bars.appendChild(row);
+  });
+  var ticks = document.getElementById("ticks");
+  [0, 5, 10, 15, 20, 25].forEach(function (t) {
+    var s = document.createElement("span"); s.style.left = pct(t); s.textContent = t + " ms"; ticks.appendChild(s);
+  });
+  [[8.33, "120 Hz"], [16.67, "60 Hz"]].forEach(function (b) {
+    var s = document.createElement("span"); s.className = "budget"; s.style.left = pct(b[0]); s.textContent = b[1]; ticks.appendChild(s);
+  });
+
+  var L = [
+    ["Closures are affine. A closure field cannot be shared, and f(f(x)) is rejected.", "c", "Confirmed", "GUIDE.md:83-85, reruns on the JS and native lanes"],
+    ["GPUI listeners are shared, multi-call Rc<dyn Fn> closures.", "c", "Confirmed", "zui div.rs:575-582"],
+    ["A GPUI-shaped core type-checks in pure Bend with Msg dispatch and no @unsafe.", "c", "Confirmed", "739-line sketch, identical JS and native output"],
+    ["Framework core costs about 1.0 / 2.4-2.7 ms per frame at 2,001 / 5,001 elements.", "r", "Revised up", "First reported 0.80 / 2.15 ms on a ramp; 2,000-frame reruns plateau 12-26% higher, memory flat"],
+    ["The timed core is a minimal element model.", "n", "New", "Fixed advance table, one counter of state, 3 element kinds, no shape-cache lookups"],
+    ["CoreText shaping round trip is 0.36 ms per 2,000 characters.", "n", "Measured", "3 × 100 iterations; first call 9 ms"],
+    ["Base output is only Window.frame(Image), 24-bit, alpha forced to 1.", "c", "Confirmed", "base.bend:74-76, window.c:360-384"],
+    ["Base's macOS window is fixed size and 1x.", "c", "Confirmed", "window.c:214-230; PR #1108 still open"],
+    ["Base events lack typed text, IME, resize, focus and click count.", "r", "Revised", "Modifiers arrive as separate key events; Shift+1 gives 33"],
+    ["Native code enters only through .c/.js effects run by the event loop.", "r", "Revised", "Effects can also run work on io_work helper threads"],
+    ["Linking an extra library needs dlopen or a compiler wrapper.", "x", "Refuted", ".linker_option or a module map plus LIBRARY_PATH works with stock clang"],
+    ["A custom effect must reuse the Window handle.", "r", "Revised", "An affine id wrapper also works, but it can be forged"],
+    ["The effect C API has no ABI promise.", "c", "Confirmed", "EFFECTS.md:136-139; PR #1281 would change io_eff"],
+    ["A ! inside App.run's view runs on the GPU.", "c", "Confirmed", "240 GPU calls per 120 frames, 0 CPU runs"],
+    ["The ! flag belongs to the def, not the call site.", "n", "New", "A plain call went to the GPU (16.6 ms), then crashed at 2,001 elements"],
+    ["CPU pool vs ! on UI frames.", "r", "Revised", "Tie at 64-256 cards at 1x; GPU wins at 1,024; CPU wins 2-8× on sparse frames and at 2x"],
+    ["Retina with a Bend rasterizer needs damage tracking for 120 Hz.", "c", "Reproduced", "Full redraw 17.9 ms in a window (100% of frames late); incremental 8.3-8.5 ms"],
+    ["P3 renders 256 cards and 2,000 glyphs in 0.42-0.65 ms headless.", "c", "Reproduced", "3 × 95 frames by two agents; one run 2× slower from external GPU load"],
+    ["P3 holds 120 Hz in a real 2x window.", "r", "Revised", "98.6% of 345 frames under 12.5 ms, worst 17.7 ms; runtime patched with PR #1108"],
+    ["P3's GPU read of the Bend heap is safe.", "r", "Revised", "Only because the effect calls waitUntilCompleted before returning (p3fx.c:284-294)"],
+    ["In-window GPU time is 2.55 ms vs 0.34 ms headless.", "r", "Explained", "GPU clocks down between paced frames and overlaps the compositor; p90 3.5 ms; minimum equals headless"],
+    ["Idle redraw cost and the bounded wait.", "n", "Measured", "Redraw every vsync: 13% CPU, 57% GPU; timer-bounded wait: 1% CPU, 3% GPU, timers on schedule"],
+    ["IME works through a per-frame snapshot.", "r", "Partly", "Typed and dead-key text correct on the German layout; no composition open across frames tested"],
+    ["C can call Bend synchronously through a corpus_eval re-entry.", "n", "Works, unsupported", "20,000 calls and 301 GPU calls inside AppKit callbacks, 0 mismatches"],
+    ["Allocator slowdown #1007 affects a UI workload.", "r", "Scale-dependent", "Issue repro 2.7-18× slower; UI workloads flat over 2,000-20,000 frames"],
+    ["Numbers are only Nat, U32 and F32.", "r", "Revised", "Nat holds 48-bit values; U32 has no signed operations"],
+    ["zui's macOS run loop blocks and has no pump_events.", "r", "Revised", "Headless mode blocks too"],
+    ["Every non-Rust GPUI front end binds GPUI rather than rewriting it.", "c", "Confirmed", "gpuix, gpui-moonbit, gpui-react"],
+    ["Share of the macOS framework that is Bend.", "e", "Estimate", "70-85% depending on boundary choices; zui is about 98% Rust by the same count"],
+    ["Effort.", "e", "Guess", "No framework-scale Bend project to calibrate against"]
+  ];
+  var tb = document.getElementById("ledger-body");
+  L.forEach(function (r) {
+    var tr = document.createElement("tr");
+    var a = document.createElement("td"); a.textContent = r[0];
+    var b = document.createElement("td"); var s = document.createElement("span"); s.className = "status " + r[1]; s.textContent = r[2]; b.appendChild(s);
+    var c = document.createElement("td"); c.textContent = r[3];
+    tr.appendChild(a); tr.appendChild(b); tr.appendChild(c); tb.appendChild(tr);
+  });
+})();
+</script>

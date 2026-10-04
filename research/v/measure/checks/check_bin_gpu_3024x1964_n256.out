@@ -1,0 +1,8 @@
+check v 1 n 256 w 3024 h 1964 isum 1749753439 leaves 1482265
+blit_sum 1707481325
+probe x 1519 y 991 ref 7923272 tex 7923272 ok True
+probe x 10 y 982 ref 2763059 tex 2763059 ok True
+probe x 66 y 54 ref 4210752 tex 4210752 ok True
+probe x 3022 y 1962 ref 1645601 tex 1645601 ok True
+v 1 n 256 w 3024 h 1964 f 0 build_us 1380 render_us 19156 present_us 844 drop_us 3910 frame_us 25290 rss_kb 88352
+done rss_kb 88352

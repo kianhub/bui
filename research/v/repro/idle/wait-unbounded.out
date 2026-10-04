@@ -1,0 +1,113 @@
+wake us 1137438260 waited_us 15824 events 3
+wake us 1137533215 waited_us 72705 events 1
+wake us 1138536041 waited_us 1001319 events 0
+tick us 1138536056
+recv sent_us 1138536056 seen_us 1138538312 lat_us 2256
+wake us 1139540399 waited_us 1002077 events 0
+tick us 1139540410
+recv sent_us 1139540410 seen_us 1139542638 lat_us 2228
+wake us 1140543873 waited_us 1001225 events 0
+tick us 1140543885
+recv sent_us 1140543885 seen_us 1140546627 lat_us 2742
+wake us 1141547890 waited_us 1001251 events 0
+tick us 1141547905
+recv sent_us 1141547905 seen_us 1141550354 lat_us 2449
+wake us 1142550670 waited_us 1000303 events 0
+tick us 1142550741
+recv sent_us 1142550741 seen_us 1142553398 lat_us 2657
+wake us 1143553555 waited_us 1000147 events 0
+tick us 1143553570
+recv sent_us 1143553570 seen_us 1143556449 lat_us 2879
+wake us 1144557473 waited_us 1001014 events 0
+tick us 1144557485
+recv sent_us 1144557485 seen_us 1144560608 lat_us 3123
+wake us 1145561042 waited_us 1000426 events 0
+tick us 1145561056
+recv sent_us 1145561056 seen_us 1145563541 lat_us 2485
+wake us 1146565648 waited_us 1002097 events 0
+tick us 1146565662
+recv sent_us 1146565662 seen_us 1146568355 lat_us 2693
+wake us 1147568898 waited_us 1000541 events 0
+tick us 1147568912
+recv sent_us 1147568912 seen_us 1147571466 lat_us 2554
+wake us 1148572072 waited_us 1000595 events 0
+tick us 1148572085
+recv sent_us 1148572085 seen_us 1148575068 lat_us 2983
+wake us 1149577189 waited_us 1002111 events 0
+tick us 1149577201
+recv sent_us 1149577201 seen_us 1149579974 lat_us 2773
+wake us 1150580406 waited_us 1000424 events 0
+tick us 1150580421
+recv sent_us 1150580421 seen_us 1150582870 lat_us 2449
+wake us 1151583610 waited_us 1000729 events 0
+tick us 1151583621
+recv sent_us 1151583621 seen_us 1151586248 lat_us 2627
+wake us 1152588110 waited_us 1001851 events 0
+tick us 1152588121
+recv sent_us 1152588121 seen_us 1152590529 lat_us 2408
+wake us 1153591078 waited_us 1000542 events 0
+tick us 1153591090
+recv sent_us 1153591090 seen_us 1153594011 lat_us 2921
+wake us 1154594438 waited_us 1000418 events 0
+tick us 1154594453
+recv sent_us 1154594453 seen_us 1154597282 lat_us 2829
+wake us 1155599405 waited_us 1002111 events 0
+tick us 1155599417
+recv sent_us 1155599417 seen_us 1155601729 lat_us 2312
+wake us 1156602756 waited_us 1001015 events 0
+tick us 1156602770
+recv sent_us 1156602770 seen_us 1156605221 lat_us 2451
+wake us 1157607364 waited_us 1002134 events 0
+tick us 1157607378
+recv sent_us 1157607378 seen_us 1157609788 lat_us 2410
+wake us 1158611090 waited_us 1001293 events 0
+tick us 1158611111
+recv sent_us 1158611111 seen_us 1158613158 lat_us 2047
+wake us 1159615406 waited_us 1002107 events 0
+tick us 1159615421
+recv sent_us 1159615421 seen_us 1159617635 lat_us 2214
+wake us 1160618934 waited_us 1001289 events 0
+tick us 1160618946
+recv sent_us 1160618946 seen_us 1160621686 lat_us 2740
+wake us 1161623621 waited_us 1001927 events 0
+tick us 1161623634
+recv sent_us 1161623634 seen_us 1161626276 lat_us 2642
+wake us 1162627861 waited_us 1001575 events 0
+tick us 1162627872
+recv sent_us 1162627872 seen_us 1162630571 lat_us 2699
+wake us 1163631959 waited_us 1001379 events 0
+tick us 1163631972
+recv sent_us 1163631972 seen_us 1163634764 lat_us 2792
+wake us 1164635621 waited_us 1000849 events 0
+tick us 1164635633
+recv sent_us 1164635633 seen_us 1164637188 lat_us 1555
+wake us 1165637498 waited_us 1000299 events 0
+tick us 1165637511
+done
+done rss_kb 88080
+recv sent_us 1165637511 seen_us 1165642394 lat_us 4883
+tick us 1165890197
+recv sent_us 1165890197 seen_us 1165890200 lat_us 3
+tick us 1166142247
+recv sent_us 1166142247 seen_us 1166142251 lat_us 4
+tick us 1166394308
+recv sent_us 1166394308 seen_us 1166394311 lat_us 3
+tick us 1166646361
+recv sent_us 1166646361 seen_us 1166646365 lat_us 4
+tick us 1166898406
+recv sent_us 1166898406 seen_us 1166898440 lat_us 34
+tick us 1167148537
+recv sent_us 1167148537 seen_us 1167148541 lat_us 4
+tick us 1167398676
+recv sent_us 1167398676 seen_us 1167398680 lat_us 4
+tick us 1167650722
+recv sent_us 1167650722 seen_us 1167650725 lat_us 3
+tick us 1167902783
+recv sent_us 1167902783 seen_us 1167902788 lat_us 5
+tick us 1168154837
+recv sent_us 1168154837 seen_us 1168154841 lat_us 4
+tick us 1168406874
+recv sent_us 1168406874 seen_us 1168406879 lat_us 5
+tick us 1168658913
+recv sent_us 1168658913 seen_us 1168658917 lat_us 4
+consumer done

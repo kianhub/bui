@@ -1,0 +1,9 @@
+selectedRange -> Bend says length 7
+insertText "H" -> Bend appended (old length 6, caret now 7)
+selectedRange -> Bend says length 8
+insertText "i" -> Bend appended (old length 7, caret now 8)
+selectedRange -> Bend says length 9
+insertText "!" -> Bend appended (old length 8, caret now 9)
+
+Bend state after the frame: "start:Hi!"
+exit=0

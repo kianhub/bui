@@ -1,0 +1,8 @@
+14:19:05 baseline 15 s
+14:19:22 start present load 4.78
+14:20:01 end present
+14:20:01 start wait-bounded load 4.33
+14:20:38 end wait-bounded
+14:20:38 start wait-unbounded load 3.42
+14:21:18 end wait-unbounded
+14:21:18 done

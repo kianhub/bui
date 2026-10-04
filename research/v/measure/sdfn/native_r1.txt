@@ -1,0 +1,8 @@
+cpu first sums: 119989906 538638866 1953956560
+C -O3 1 thread               n=40 min=18845 median=19319 max=28794 (us)
+device: Apple M3 Pro
+Metal empty cmdbuf+wait      n=40 min=14 median=17 max=219 (us)
+metal leaf sums: 119989906 538638866 1953956560 (match cpu: yes)
+Metal leaf kernel+wait+sum   n=40 min=248 median=418 max=5028 (us)
+Metal per-pixel 1080p+wait   n=40 min=240 median=267 max=3324 (us)
+  (GPU-side time only)       n=40 min=107 median=109 max=2849 (us)

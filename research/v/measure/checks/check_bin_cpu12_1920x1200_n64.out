@@ -1,0 +1,8 @@
+check v 1 n 64 w 1920 h 1200 isum 2711388667 leaves 517948
+blit_sum 3732224708
+probe x 967 y 609 ref 13458660 tex 13458660 ok True
+probe x 10 y 600 ref 2763059 tex 2763059 ok True
+probe x 43 y 35 ref 4210752 tex 4210752 ok True
+probe x 1918 y 1198 ref 1645601 tex 1645601 ok True
+v 1 n 64 w 1920 h 1200 f 0 build_us 718 render_us 3670 present_us 22792 drop_us 377 frame_us 27557 rss_kb 41136
+done rss_kb 41136

@@ -1,0 +1,407 @@
+diff --git a/bend2/base.bend b/bend2/base.bend
+index b77869e5b..18ac9b23b 100644
+--- a/bend2/base.bend
++++ b/bend2/base.bend
+@@ -82,6 +82,7 @@ type Event is Data:
+   Look{dx: F32, dy: F32}
+   Scroll{x: U32, y: U32, dx: F32, dy: F32}
+   Close{}
++  Resize{width: U32, height: U32}
+ 
+ type Map<a, -V: Kind(a)> is Kind(a):
+   MTip{}
+@@ -374,6 +375,11 @@ def Window.open(title: String, width: U32, height: U32) ->
+   import "./effs/window.c"
+   import "./effs/window_open.js"
+ 
++def Window.open_resizable(title: String, width: U32, height: U32) ->
++  IO(Result<&1, &1, U32 & String, Window>):
++  import "./effs/window.c"
++  import "./effs/window_open.js"
++
+ def Window.frame(window: Window, image: Image) ->
+   IO(Window & Image & List<Event>):
+   import "./effs/window.c"
+@@ -3006,6 +3012,13 @@ def App.run(
+     window : Window <- IO.try(Window, Window.open(title, width, height))
+     App.loop(~S, ~app, 4294967295n, window, state)
+ 
++def App.run_resizable(
++  ~S: Type, ~app: App<S>, title: String, width: U32, height: U32, state: S
++) -> IO(Unit):
++  do IO<Unit>:
++    window : Window <- IO.try(Window, Window.open_resizable(title, width, height))
++    App.loop(~S, ~app, 4294967295n, window, state)
++
+ def App.more(-S: Type, rest: S -> IO(Maybe<S>), next: Maybe<S>) ->
+   IO(Maybe<S>):
+   match next:
+diff --git a/bend2/effs/window.c b/bend2/effs/window.c
+index bb31580c0..e37c946d1 100644
+--- a/bend2/effs/window.c
++++ b/bend2/effs/window.c
+@@ -32,7 +32,13 @@ typedef struct {
+ 
+ #endif
+ 
+-#ifdef CID(Window.open)
++#if defined(CID(Window.open)) || defined(CID(Window.open_resizable))
++
++static const char* window_no_display(bool resizable) {
++  return resizable
++    ? "Window.open_resizable: no display (build a native binary with bend <file> -o <out> and run it from a desktop session)"
++    : "Window.open: no display (build a native binary with bend <file> -o <out> and run it from a desktop session)";
++}
+ 
+ #ifdef __OBJC__
+ 
+@@ -91,8 +97,9 @@ typedef struct {
+ - (NSPoint)at:(NSEvent*)ev {
+   CGSize  size = ((CAMetalLayer*)self.layer).drawableSize;
+   NSPoint p    = [self convertPoint:ev.locationInWindow fromView:nil];
+-  return NSMakePoint(fmax(0, fmin(floor(p.x), size.width - 1)),
+-    fmax(0, fmin(floor(p.y), size.height - 1)));
++  CGFloat scale = self.window.backingScaleFactor;
++  return NSMakePoint(fmax(0, fmin(floor(p.x * scale), size.width - 1)),
++    fmax(0, fmin(floor(p.y * scale), size.height - 1)));
+ }
+ 
+ - (void)mouse:(NSEvent*)ev down:(BOOL)down {
+@@ -183,12 +190,38 @@ typedef struct {
+   return NO;
+ }
+ 
++- (void)resize {
++  if (self.window == nil) {
++    return;
++  }
++  CGFloat scale = self.window.backingScaleFactor;
++  CGSize size = self.bounds.size;
++  u32 w = (u32)fmax(1, fmin(16384, ceil(size.width * scale)));
++  u32 h = (u32)fmax(1, fmin(16384, ceil(size.height * scale)));
++  CAMetalLayer* layer = (CAMetalLayer*)self.layer;
++  layer.contentsScale = scale;
++  if (layer.drawableSize.width != w || layer.drawableSize.height != h) {
++    layer.drawableSize = CGSizeMake(w, h);
++    [self push:CID(Resize) a:w b:h c:0 d:0];
++  }
++}
++
++- (void)windowDidResize:(NSNotification*)note {
++  [self resize];
++}
++
++- (void)windowDidChangeBackingProperties:(NSNotification*)note {
++  CGFloat max = 16384.0 / self.window.backingScaleFactor;
++  self.window.contentMaxSize = NSMakeSize(max, max);
++  [self resize];
++}
++
+ @end
+ 
+ static id<MTLDevice> window_dev;
+ 
+-static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+-  const char** why) {
++static u32 window_make(const char* title, u32 w, u32 h, bool resizable,
++  intptr_t* out, const char** why) {
+   if (w < 1 || h < 1 || w > 16384 || h > 16384) {
+     return EINVAL;
+   }
+@@ -213,21 +246,35 @@ static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+       initWithContentRect:NSMakeRect(0, 0, 1, 1)
+       styleMask:NSWindowStyleMaskTitled | NSWindowStyleMaskClosable
+         | NSWindowStyleMaskMiniaturizable
++        | (resizable ? NSWindowStyleMaskResizable : 0)
+       backing:NSBackingStoreBuffered defer:NO];
+     win.releasedWhenClosed = NO;
+     win.acceptsMouseMovedEvents = YES;
+     win.title = [NSString stringWithCString:title
+       encoding:NSISOLatin1StringEncoding];
+     [win setContentSize:NSMakeSize(w, h)];
++    if (ceil(w * win.backingScaleFactor) > 16384
++      || ceil(h * win.backingScaleFactor) > 16384) {
++      [win close];
++      return EINVAL;
++    }
++    if (resizable) {
++      CGFloat max = 16384.0 / win.backingScaleFactor;
++      win.contentMinSize = NSMakeSize(1, 1);
++      win.contentMaxSize = NSMakeSize(max, max);
++    }
+     BendView* view = [[BendView alloc] initWithFrame:win.contentLayoutRect];
++    view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+     view->evs   = [NSMutableData new];
+     view->flags = NSEvent.modifierFlags;
+     view.wantsLayer = YES;
+     CAMetalLayer* layer = (CAMetalLayer*)view.layer;
++    layer.contentsScale = win.backingScaleFactor;
+     layer.device = window_dev;
+     layer.pixelFormat = MTLPixelFormatBGRA8Unorm;
+     layer.framebufferOnly = NO;
+-    layer.drawableSize = CGSizeMake(w, h);
++    layer.drawableSize = CGSizeMake(ceil(w * win.backingScaleFactor),
++      ceil(h * win.backingScaleFactor));
+     layer.displaySyncEnabled = YES;
+     layer.maximumDrawableCount = 2;
+     win.contentView = view;
+@@ -243,14 +290,14 @@ static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+ 
+ #elif defined(__linux__)
+ 
+-static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+-  const char** why) {
++static u32 window_make(const char* title, u32 w, u32 h, bool resizable,
++  intptr_t* out, const char** why) {
+   if (w < 1 || h < 1 || w > 16384 || h > 16384) {
+     return EINVAL;
+   }
+   Display* dpy = XOpenDisplay(NULL);
+   if (dpy == NULL) {
+-    *why = "Window.open: no display (build a native binary with bend <file> -o <out> and run it from a desktop session)";
++    *why = window_no_display(resizable);
+     return ENOTSUP;
+   }
+   int scr = DefaultScreen(dpy);
+@@ -267,13 +314,15 @@ static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+   win->img = XCreateImage(dpy, DefaultVisual(dpy, scr), DefaultDepth(dpy, scr),
+     ZPixmap, 0, io_mem(calloc(w * h, 4)), w, h, 32, w * 4);
+   win->img->byte_order = LSBFirst;
+-  XSizeHints hints = { .flags = PMinSize | PMaxSize, .min_width = w,
+-    .min_height = h, .max_width = w, .max_height = h };
++  XSizeHints hints = { .flags = PMinSize | PMaxSize, .min_width = resizable ? 1 : w,
++    .min_height = resizable ? 1 : h, .max_width = resizable ? 16384 : w,
++    .max_height = resizable ? 16384 : h };
+   XSetWMNormalHints(dpy, win->win, &hints);
+   XSetWMProtocols(dpy, win->win, &win->del, 1);
+   XStoreName(dpy, win->win, title);
+   XSelectInput(dpy, win->win, KeyPressMask | KeyReleaseMask | ButtonPressMask
+-    | ButtonReleaseMask | PointerMotionMask | FocusChangeMask);
++    | ButtonReleaseMask | PointerMotionMask | FocusChangeMask
++    | StructureNotifyMask);
+   XMapRaised(dpy, win->win);
+   XFlush(dpy);
+   *out = (intptr_t)win;
+@@ -282,21 +331,21 @@ static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+ 
+ #else
+ 
+-static u32 window_make(const char* title, u32 w, u32 h, intptr_t* out,
+-  const char** why) {
+-  *why = "Window.open: no display (build a native binary with bend <file> -o <out> and run it from a desktop session)";
++static u32 window_make(const char* title, u32 w, u32 h, bool resizable,
++  intptr_t* out, const char** why) {
++  *why = window_no_display(resizable);
+   return ENOTSUP;
+ }
+ 
+ #endif
+ 
+-Term window_open_run(Env e, Term* f, IoWork* w) {
++static Term window_open_with(Env e, Term* f, bool resizable) {
+   uint64_t n = 0;
+   char* title = io_cstr(e, f[0], &n);
+   intptr_t out;
+   const char* why = NULL;
+   u32 q = io_nul(title, n) ? EILSEQ
+-    : window_make(title, (u32)f[1], (u32)f[2], &out, &why);
++    : window_make(title, (u32)f[1], (u32)f[2], resizable, &out, &why);
+   free(title);
+   if (q != 0) {
+     return io_fail(e, q, why);
+@@ -304,8 +353,25 @@ Term window_open_run(Env e, Term* f, IoWork* w) {
+   return io_done(e, io_hand(out));
+ }
+ 
++#ifdef CID(Window.open)
++Term window_open_run(Env e, Term* f, IoWork* w) {
++  return window_open_with(e, f, false);
++}
++#endif
++
++#ifdef CID(Window.open_resizable)
++Term window_open_resizable_run(Env e, Term* f, IoWork* w) {
++  return window_open_with(e, f, true);
++}
++#endif
++
+ static void __attribute__((constructor)) window_open_use(void) {
++#ifdef CID(Window.open)
+   io_eff(CID(Window.open), window_open_run, 0);
++#endif
++#ifdef CID(Window.open_resizable)
++  io_eff(CID(Window.open_resizable), window_open_resizable_run, 0);
++#endif
+ }
+ 
+ #endif
+@@ -556,7 +622,18 @@ static void window_pump(BendWin* win) {
+   while (XPending(win->dpy) > 0) {
+     XEvent ev;
+     XNextEvent(win->dpy, &ev);
+-    if (ev.type == KeyPress || ev.type == KeyRelease) {
++    if (ev.type == ConfigureNotify) {
++      int nw = ev.xconfigure.width;
++      int nh = ev.xconfigure.height;
++      if (nw < 1 || nh < 1 || nw > 16384 || nh > 16384) {
++        err_fail("invalid window size");
++      }
++      if ((u32)nw != w || (u32)nh != h) {
++        w = nw;
++        h = nh;
++        window_push(win, CID(Resize), w, h, 0, 0);
++      }
++    } else if (ev.type == KeyPress || ev.type == KeyRelease) {
+       window_push(win, CID(Key), window_key(&ev.xkey), ev.type == KeyPress,
+         0, 0);
+     } else if (ev.type == ButtonPress || ev.type == ButtonRelease) {
+@@ -587,6 +664,21 @@ static void window_pump(BendWin* win) {
+       window_push(win, CID(Close), 0, 0, 0, 0);
+     }
+   }
++  XImage* img = win->img;
++  if (w != (u32)img->width || h != (u32)img->height) {
++    // Every pixel is filled on the next frame; keep the 32-bit ZPixmap.
++    img->data = io_mem(realloc(img->data, (size_t)w * h * 4));
++    img->width = w;
++    img->height = h;
++    img->bytes_per_line = w * 4;
++    if (win->grab) {
++      cx = w / 2;
++      cy = h / 2;
++      XWarpPointer(win->dpy, None, win->win, 0, 0, 0, 0, cx, cy);
++      x = cx;
++      y = cy;
++    }
++  }
+   // grabbed, the frame's motion is one look from the centre
+   if (win->grab && (x != cx || y != cy)) {
+     window_push(win, CID(Look), f32_rewrap(x - cx), f32_rewrap(y - cy), 0,
+diff --git a/bend2/effs/window_open.js b/bend2/effs/window_open.js
+index d6214a692..5c78546da 100644
+--- a/bend2/effs/window_open.js
++++ b/bend2/effs/window_open.js
+@@ -1,10 +1,19 @@
+ // Window
+ // ======
+ 
+-function window_open(title, width, height) {
++function window_open_error(name) {
+   const code = process.platform === "darwin" ? 45 : 95;
+-  const text = "Window.open: no display (build a native binary with bend <file> -o <out> and run it from a desktop session)";
++  const text = name + ": no display (build a native binary with bend <file> -o <out> and run it from a desktop session)";
+   return { $: CID(Fail), error: { $: CID(Tuple), fst: code, snd: text } };
+ }
+ 
++function window_open(title, width, height) {
++  return window_open_error("Window.open");
++}
++
++function window_open_resizable(title, width, height) {
++  return window_open_error("Window.open_resizable");
++}
++
+ io_eff(CID(Window.open), window_open);
++io_eff(CID(Window.open_resizable), window_open_resizable);
+diff --git a/demos/app_slash_boss_3d/PROOF.bend b/demos/app_slash_boss_3d/PROOF.bend
+index d7fcf0cbd..d661b20f8 100644
+--- a/demos/app_slash_boss_3d/PROOF.bend
++++ b/demos/app_slash_boss_3d/PROOF.bend
+@@ -113,6 +113,8 @@ def Laws.esc_quits(pre, post, g):
+       Laws.esc_quits(rest, post, g)
+     case Scroll{x, y, dx, dy} <> rest:
+       Laws.esc_quits(rest, post, g)
++    case Resize{width, height} <> rest:
++      Laws.esc_quits(rest, post, g)
+     case Close{} <> rest:
+       {==}
+ 
+diff --git a/guide/GUIDE.md b/guide/GUIDE.md
+index 947006399..3baba03dd 100644
+--- a/guide/GUIDE.md
++++ b/guide/GUIDE.md
+@@ -458,20 +458,20 @@ def main() -> IO(Unit):
+   App.run(~U32, ~App{+s => (s, Pix{s}), tick}, "Hello", 256, 256, 0)
+ ```
+ 
+-An `Image` is a quadtree: `Pix{color}` paints a square, and `Qua{tl, tr, bl,
+-br}` splits it in four, so a frame is drawn by recursion like everything else,
+-in parallel if you want. Events are `Key`, `Mouse`, `Move`, `Look`, `Scroll`
+-and `Close`. `Scroll{x, y, dx, dy}` is a wheel or trackpad under the pointer;
+-its signed `F32` deltas scroll toward a page's top and left (a notch is 1 on
+-X11). For a first-person camera, `Window.grab(window, True{})` hides and holds
+-the cursor, and the mouse's motion comes as `Look{dx, dy}` (signed `F32`, in
+-`Move`'s units) until `Window.grab(window, False{})` or the window losing focus
+-lets it go.
+-`App.run` opens a window and calls `view` then `tick` once per frame, until
+-`tick` answers `None`. Since the state is affine, `view` must hand it back next
+-to the image. Underneath are `Window.open`, `Window.frame` and `Window.close`,
+-and `Audio.open`, `Audio.write` and `Audio.close` for sound. See
+-`demos/app_pong_game_2d` for a complete one.
++An `Image` is a quadtree: `Pix{color}` paints a square; `Qua{tl, tr, bl, br}`
++splits it into four, recursively and in parallel. Events are `Key`, `Mouse`,
++`Move`, `Look`, `Scroll`, `Close` and `Resize{width, height}`. Scroll deltas
++`dx, dy: F32` are signed; an X11 wheel notch is 1. `Window.grab(window, True{})`
++hides and holds the cursor, reporting `Look` instead of `Move` until released
++or focus is lost.
++
++`App.run_resizable` allows resizing; `App.run` stays fixed. `Resize` reports
++drawable pixels (points times backing scale on macOS) to `tick` before the
++next `view`, which can then adjust image detail. Custom loops use
++`Window.open_resizable` and receive events and the owned image from
++`Window.frame`. `App.run` calls `view` then `tick` each frame until `tick`
++returns `None`. The affine state must be returned beside the image. See
++`demos/app_pong_game_2d` for a complete app.
+ 
+ ### The Base Library
+ 
+diff --git a/tests/gfx/resize_event.bend b/tests/gfx/resize_event.bend
+new file mode 100644
+index 000000000..8db8afc05
+--- /dev/null
++++ b/tests/gfx/resize_event.bend
+@@ -0,0 +1,44 @@
++# A resizable app receives pixel dimensions before its next view; later
++# events can replace the dimensions, while Close still stops the run.
++import Base
++
++type Size is Data:
++  Size{width: U32, height: U32}
++
++def update(events: List<Event>, state: Size) -> Maybe<Size>:
++  match events:
++    case Nil{}:
++      Some{state}
++    case Resize{width, height} <> rest:
++      update(rest, Size{width, height})
++    case Close{} <> rest:
++      None{}
++    case event <> rest:
++      update(rest, state)
++
++def tick(events: List<Event>, state: Size) -> IO(Maybe<Size>):
++  IO.pure(Maybe<Size>, update(events, state))
++
++def view(state: Size) -> Size & Image:
++  Size{+width, +height} = state
++  (Size{width, height}, Pix{(width * height : U32)})
++
++def show(result: Maybe<Size>) -> IO(Unit):
++  match result:
++    case None{}:
++      IO.print("closed")
++    case Some{Size{width, height}}:
++      IO.print(U32.show(width) ++ "x" ++ U32.show(height))
++
++def main() -> IO(Unit):
++  do IO<Unit>:
++    first : Maybe<Size> <- App.play(~Size, ~App{view, tick},
++      [[Resize{96, 64}], [Key{65, True{}}, Resize{32, 24}], []],
++      Size{64, 48})
++    u : Unit <- show(first)
++    second : Maybe<Size> <- App.play(~Size, ~App{view, tick},
++      [[Resize{1, 1}, Close{}, Resize{2, 2}]], Size{64, 48})
++    show(second)
++
++#|32x24
++#|closed

@@ -1,0 +1,182 @@
+  [shim] attached: firstResponder=BimeView ok=1 inputContext=yes layout=com.apple.keylayout.German
+  [shim] snapshot from Bend: text="" sel={0,0} mark={NotFound}; shim predicted "" sel={0,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="" sel={0,0} mark={NotFound}; shim predicted "" sel={0,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="" sel={0,0} mark={NotFound}; shim predicted "" sel={0,0} mark={NotFound} -> AGREE
+  [shim] test 1: NSApp active=1 key=1 firstResponder=BimeView; posting CGEvent-built NSEvents into the app queue (German layout keyCodes)
+  [shim] keyDown keyCode=4 mods=0x20000 characters="H"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "H" replacementRange={NotFound} (target {0,0})
+  [shim] keyDown keyCode=0 mods=0x0 characters="a"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "a" replacementRange={NotFound} (target {1,0})
+  [shim] keyDown keyCode=37 mods=0x0 characters="l"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "l" replacementRange={NotFound} (target {2,0})
+  [shim] keyDown keyCode=37 mods=0x0 characters="l"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "l" replacementRange={NotFound} (target {3,0})
+  [shim] keyDown keyCode=31 mods=0x0 characters="o"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "o" replacementRange={NotFound} (target {4,0})
+  [shim] keyDown keyCode=49 mods=0x0 characters=" "
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText " " replacementRange={NotFound} (target {5,0})
+  [shim] keyDown keyCode=13 mods=0x20000 characters="W"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "W" replacementRange={NotFound} (target {6,0})
+  [shim] keyDown keyCode=14 mods=0x0 characters="e"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "e" replacementRange={NotFound} (target {7,0})
+  [shim] keyDown keyCode=37 mods=0x0 characters="l"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "l" replacementRange={NotFound} (target {8,0})
+  [shim] keyDown keyCode=17 mods=0x0 characters="t"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "t" replacementRange={NotFound} (target {9,0})
+  [shim] keyDown keyCode=18 mods=0x20000 characters="!"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "!" replacementRange={NotFound} (target {10,0})
+  [shim] keyDown keyCode=19 mods=0x20000 characters="""
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText """ replacementRange={NotFound} (target {11,0})
+  [shim] keyDown keyCode=26 mods=0x20000 characters="/"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "/" replacementRange={NotFound} (target {12,0})
+  [shim] keyDown keyCode=6 mods=0x0 characters="y"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "y" replacementRange={NotFound} (target {13,0})
+  [shim] keyDown keyCode=41 mods=0x0 characters="ö"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "ö" replacementRange={NotFound} (target {14,0})
+  [shim] keyDown keyCode=37 mods=0x80000 characters="@"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "@" replacementRange={NotFound} (target {15,0})
+  [shim] keyDown keyCode=1 mods=0x100000 characters="s"
+frame: Base Key codes (down): 104 97 108 108 111 32 119 101 108 116 33 34 47 121 246 108 115
+  [shim] drain: 16 events, 16 queries answered during the pump
+bend got: insert "H" arg=0
+bend got: insert "a" arg=0
+bend got: insert "l" arg=0
+bend got: insert "l" arg=0
+bend got: insert "o" arg=0
+bend got: insert " " arg=0
+bend got: insert "W" arg=0
+bend got: insert "e" arg=0
+bend got: insert "l" arg=0
+bend got: insert "t" arg=0
+bend got: insert "!" arg=0
+bend got: insert """ arg=0
+bend got: insert "/" arg=0
+bend got: insert "y" arg=0
+bend got: insert "ö" arg=0
+bend got: insert "@" arg=0
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@" sel={16,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@" sel={16,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@" sel={16,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@" sel={16,0} mark={NotFound} -> AGREE
+  [shim] test 2: dead key: German acute (kVK_ANSI_Equal) then e, then Shift+acute (grave) then Shift+a, then Return and Backspace
+  [shim] keyDown keyCode=24 mods=0x0 characters=""
+  [shim] Q hasMarkedText -> 0
+  [shim] E setMarkedText "´" selectedRange={1,0} replacementRange={NotFound}
+  [shim] keyDown keyCode=14 mods=0x0 characters="é"
+  [shim] Q hasMarkedText -> 1
+  [shim] E insertText "é" replacementRange={NotFound} (target {16,1})
+  [shim] keyDown keyCode=24 mods=0x20000 characters=""
+  [shim] Q hasMarkedText -> 0
+  [shim] E setMarkedText "`" selectedRange={1,0} replacementRange={NotFound}
+  [shim] keyDown keyCode=0 mods=0x20000 characters="À"
+  [shim] Q hasMarkedText -> 1
+  [shim] E insertText "À" replacementRange={NotFound} (target {17,1})
+  [shim] keyDown keyCode=36 mods=0x0 characters="
+"
+  [shim] Q hasMarkedText -> 0
+  [shim] Q hasMarkedText -> 0
+  [shim] E doCommandBySelector insertNewline:
+  [shim] keyDown keyCode=7 mods=0x0 characters="x"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "x" replacementRange={NotFound} (target {19,0})
+  [shim] keyDown keyCode=51 mods=0x0 characters=""
+  [shim] Q hasMarkedText -> 0
+  [shim] Q hasMarkedText -> 0
+  [shim] E doCommandBySelector deleteBackward:
+frame: Base Key codes (down): 65560 101 65560 97 13 120 127
+  [shim] drain: 7 events, 9 queries answered during the pump
+bend got: mark "´" arg=1
+bend got: insert "é" arg=0
+bend got: mark "`" arg=1
+bend got: insert "À" arg=0
+bend got: command "insertNewline:" arg=0
+bend got: insert "x" arg=0
+bend got: command "deleteBackward:" arg=0
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n" sel={19,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n" sel={19,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n" sel={19,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n" sel={19,0} mark={NotFound} -> AGREE
+  [shim] test 3: an IME's call sequence driven directly on the view (Japanese-style: k -> か -> かな -> commit 仮名), queries in between
+  [shim] E setMarkedText "k" selectedRange={1,0} replacementRange={NotFound}
+  [shim] Q markedRange -> {19,1}
+  [shim] Q selectedRange -> {20,0}
+  [shim] Q attributedSubstring {0,20} -> "Hallo Welt!"/yö@éÀ\nk"
+  [shim] Q firstRect {20,0} -> screen (895,775 1x18)
+  [shim] -- after setMarkedText k (no Bend frame yet)
+  [shim] E setMarkedText "か" selectedRange={1,0} replacementRange={NotFound}
+  [shim] E setMarkedText "かな" selectedRange={2,0} replacementRange={NotFound}
+  [shim] Q markedRange -> {19,2}
+  [shim] Q selectedRange -> {21,0}
+  [shim] Q attributedSubstring {0,21} -> "Hallo Welt!"/yö@éÀ\nかな"
+  [shim] Q firstRect {21,0} -> screen (895,775 1x18)
+  [shim] -- after setMarkedText かな (no Bend frame yet)
+  [shim] E insertText "仮名😀" replacementRange={NotFound} (target {19,2})
+  [shim] Q markedRange -> {NotFound}
+  [shim] Q selectedRange -> {23,0}
+  [shim] Q attributedSubstring {0,23} -> "Hallo Welt!"/yö@éÀ\n仮名😀"
+  [shim] Q firstRect {23,0} -> screen (895,775 1x18)
+  [shim] -- after insertText 仮名😀 (no Bend frame yet)
+  [shim] E insertText "x" replacementRange={NotFound} (target {23,0})
+  [shim] Q selectedRange -> {24,0}
+  [shim] E insertText "ẍ" replacementRange={23,1} (target {23,1})
+  [shim] Q markedRange -> {NotFound}
+  [shim] Q selectedRange -> {24,0}
+  [shim] Q attributedSubstring {0,24} -> "Hallo Welt!"/yö@éÀ\n仮名😀ẍ"
+  [shim] Q firstRect {24,0} -> screen (895,775 1x18)
+  [shim] -- after accent-menu replace x -> ẍ (no Bend frame yet)
+frame: Base Key codes (down):
+  [shim] drain: 6 events, 17 queries answered during the pump
+bend got: mark "k" arg=1
+bend got: mark "か" arg=1
+bend got: mark "かな" arg=2
+bend got: insert "仮名😀" arg=0
+bend got: insert "x" arg=0
+bend got: insert "ẍ" arg=1
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍ" sel={24,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍ" sel={24,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍ" sel={24,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍ" sel={24,0} mark={NotFound} -> AGREE
+  [shim] test 4: CGEventPostToPid(self) for Shift+q (window-server path)
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍ" sel={24,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍ" sel={24,0} mark={NotFound} -> AGREE
+  [shim] keyDown keyCode=12 mods=0x20000 characters="Q"
+  [shim] Q hasMarkedText -> 0
+  [shim] E insertText "Q" replacementRange={NotFound} (target {24,0})
+frame: Base Key codes (down): 113
+  [shim] drain: 1 events, 1 queries answered during the pump
+bend got: insert "Q" arg=0
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+  [shim] snapshot from Bend: text="Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound}; shim predicted "Hallo Welt!"/yö@éÀ\n仮名😀ẍQ" sel={25,0} mark={NotFound} -> AGREE
+frame: Base Key codes (down):
+  [shim] drain: 0 events, 0 queries answered during the pump
+final Bend text: "Hallo Welt!"/yö@éÀ
+仮名😀ẍQ" caret=24 mark=0

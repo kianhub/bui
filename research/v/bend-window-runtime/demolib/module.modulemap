@@ -1,0 +1,5 @@
+module demo {
+  header "demo.h"
+  link "demo"
+  export *
+}

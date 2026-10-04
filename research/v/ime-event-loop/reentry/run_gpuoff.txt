@@ -1,0 +1,24 @@
+closure 0: tag=3 rfc=0 fid_arity=2
+closure 1: tag=3 rfc=0 fid_arity=1
+closure 2: tag=3 rfc=0 fid_arity=1
+closure 3: tag=3 rfc=0 fid_arity=1
+io_gpu=0 pool_size=12 key=1
+hasMarkedText -> Bend h(0) = 7
+insertText "A" (65) -> Bend f(x)=2x+k (captures k=1000) = 1130
+   stack: __99-[NSTextInputContext(NSInputContext_WithCompletion) < -[NSTextInputContext(NSInputContext_WithCompletion) < __55-[NSTextInputContext < -[NSTextInputContext < _NSTSMEventHandler < SendTSMEvent_WithCompletionHandler < __utDeliverTSMEvent_WithCompletionHandler_block_invoke_2 < __utDeliverTSMEvent_WithCompletionHandler_block_invoke < TSMKeyEvent_WithCompletionHandler < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_5 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_4 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_3 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_2 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke < TSMProcessRawKeyEventWithOptionsAndCompletionHandler < __84-[NSTextInputContext < __204-[NSTextInputContext < -[NSView < -[NSWindow(NSEventRouting) < -[NSApplication(NSEventRouting) < window_frame < window_frame_run < io_step < io_loop
+hasMarkedText -> Bend h(1) = 8
+insertText "b" (98) -> Bend g(x)=x+pow2(16) (65535 forks) = 65634
+   stack: __99-[NSTextInputContext(NSInputContext_WithCompletion) < -[NSTextInputContext(NSInputContext_WithCompletion) < __55-[NSTextInputContext < -[NSTextInputContext < _NSTSMEventHandler < SendTSMEvent_WithCompletionHandler < __utDeliverTSMEvent_WithCompletionHandler_block_invoke_2 < __utDeliverTSMEvent_WithCompletionHandler_block_invoke < TSMKeyEvent_WithCompletionHandler < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_5 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_4 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_3 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_2 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke < TSMProcessRawKeyEventWithOptionsAndCompletionHandler < __84-[NSTextInputContext < __204-[NSTextInputContext < -[NSView < -[NSWindow(NSEventRouting) < -[NSApplication(NSEventRouting) < window_frame < window_frame_run < io_step < io_loop
+hasMarkedText -> Bend h(2) = 9
+insertText "!" (33) -> Bend b(x)=sq!(x) (bang) = 1089
+   stack: __99-[NSTextInputContext(NSInputContext_WithCompletion) < -[NSTextInputContext(NSInputContext_WithCompletion) < __55-[NSTextInputContext < -[NSTextInputContext < _NSTSMEventHandler < SendTSMEvent_WithCompletionHandler < __utDeliverTSMEvent_WithCompletionHandler_block_invoke_2 < __utDeliverTSMEvent_WithCompletionHandler_block_invoke < TSMKeyEvent_WithCompletionHandler < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_5 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_4 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_3 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke_2 < __TSMProcessRawKeyEventWithOptionsAndCompletionHandler_block_invoke < TSMProcessRawKeyEventWithOptionsAndCompletionHandler < __84-[NSTextInputContext < __204-[NSTextInputContext < -[NSView < -[NSWindow(NSEventRouting) < -[NSApplication(NSEventRouting) < window_frame < window_frame_run < io_step < io_loop
+hasMarkedText -> Bend h(3) = 10
+insertText "c" (99) -> Bend h(x)=x+7 = 106
+hasMarkedText -> Bend h(4) = 11
+insertText "d" (100) -> Bend h(x)=x+7 = 107
+stress h x20000 in insertText: mismatches=0
+stress g (65535 forks) x300: mismatches=0
+stress b (bang) x300: mismatches=0
+cube_run(H, true) calls so far (GPU bangs): 0
+inserts=5 hasMarkedText calls=5
+exit=0

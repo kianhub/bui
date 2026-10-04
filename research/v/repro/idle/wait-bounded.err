@@ -1,0 +1,259 @@
+bend: compiling the GPU program (research/v/repro/p3/p3idle.gpu is missing or stale)
+wait max_ms 1000 bounded 1 soon_ms 250.0 runnable 0 waited_ms 18.41 events 3
+p3 mode 0 walk_us 495.5 encode_us 770.5 gpu_us 3831 wall_us 36319 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 195.1 runnable 0 waited_ms 55.13 events 1
+p3 mode 0 walk_us 16.2 encode_us 79.2 gpu_us 589 wall_us 1235 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 138.7 runnable 0 waited_ms 147.84 events 0
+p3 mode 0 walk_us 44.2 encode_us 93.5 gpu_us 759 wall_us 1450 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.5 runnable 0 waited_ms 251.15 events 0
+p3 mode 0 walk_us 89.5 encode_us 368.8 gpu_us 919 wall_us 2140 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.86 events 0
+p3 mode 0 walk_us 149.1 encode_us 281.9 gpu_us 606 wall_us 2204 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.84 events 0
+p3 mode 0 walk_us 94.0 encode_us 419.0 gpu_us 656 wall_us 1973 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 248.82 events 0
+p3 mode 0 walk_us 161.5 encode_us 642.6 gpu_us 1073 wall_us 2994 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.8 runnable 0 waited_ms 249.00 events 0
+p3 mode 0 walk_us 131.5 encode_us 555.5 gpu_us 1380 wall_us 3191 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 248.06 events 0
+p3 mode 0 walk_us 90.1 encode_us 420.5 gpu_us 1379 wall_us 2919 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 248.98 events 0
+p3 mode 0 walk_us 41.3 encode_us 99.5 gpu_us 1379 wall_us 2164 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 248.55 events 0
+p3 mode 0 walk_us 16.5 encode_us 105.0 gpu_us 1380 wall_us 2191 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 249.88 events 0
+p3 mode 0 walk_us 16.6 encode_us 100.8 gpu_us 1106 wall_us 1871 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.1 runnable 0 waited_ms 249.66 events 0
+p3 mode 0 walk_us 40.1 encode_us 124.6 gpu_us 1381 wall_us 2187 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 248.38 events 0
+p3 mode 0 walk_us 38.6 encode_us 117.8 gpu_us 1377 wall_us 2304 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.79 events 0
+p3 mode 0 walk_us 151.7 encode_us 697.5 gpu_us 1382 wall_us 3795 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.0 runnable 0 waited_ms 247.02 events 0
+p3 mode 0 walk_us 136.0 encode_us 541.0 gpu_us 1379 wall_us 3136 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.5 runnable 0 waited_ms 247.57 events 0
+p3 mode 0 walk_us 106.9 encode_us 511.9 gpu_us 1382 wall_us 3394 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.4 runnable 0 waited_ms 248.53 events 0
+p3 mode 0 walk_us 64.8 encode_us 202.8 gpu_us 715 wall_us 1851 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.1 runnable 0 waited_ms 250.31 events 0
+p3 mode 0 walk_us 45.0 encode_us 160.7 gpu_us 1383 wall_us 2339 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.6 runnable 0 waited_ms 248.52 events 0
+p3 mode 0 walk_us 21.3 encode_us 92.0 gpu_us 512 wall_us 1390 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.6 runnable 0 waited_ms 249.02 events 0
+p3 mode 0 walk_us 141.7 encode_us 706.8 gpu_us 1380 wall_us 3368 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.4 runnable 0 waited_ms 247.29 events 0
+p3 mode 0 walk_us 51.5 encode_us 129.5 gpu_us 1385 wall_us 2430 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.96 events 0
+p3 mode 0 walk_us 24.6 encode_us 164.8 gpu_us 1377 wall_us 2294 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.90 events 0
+p3 mode 0 walk_us 99.5 encode_us 502.7 gpu_us 1381 wall_us 3112 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 248.66 events 0
+p3 mode 0 walk_us 112.6 encode_us 504.5 gpu_us 1382 wall_us 3149 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 248.86 events 0
+p3 mode 0 walk_us 166.4 encode_us 236.5 gpu_us 1384 wall_us 2680 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.2 runnable 0 waited_ms 248.14 events 0
+p3 mode 0 walk_us 139.6 encode_us 628.3 gpu_us 1384 wall_us 3648 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 246.50 events 0
+p3 mode 0 walk_us 56.6 encode_us 143.5 gpu_us 1379 wall_us 2237 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.90 events 0
+p3 mode 0 walk_us 39.8 encode_us 121.4 gpu_us 1384 wall_us 2253 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.56 events 0
+p3 mode 0 walk_us 112.6 encode_us 578.8 gpu_us 1262 wall_us 3429 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.3 runnable 0 waited_ms 248.61 events 0
+p3 mode 0 walk_us 130.4 encode_us 627.1 gpu_us 1381 wall_us 3345 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.3 runnable 0 waited_ms 248.64 events 0
+p3 mode 0 walk_us 180.2 encode_us 542.4 gpu_us 1383 wall_us 3644 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 248.13 events 0
+p3 mode 0 walk_us 54.8 encode_us 152.7 gpu_us 1381 wall_us 2424 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 247.91 events 0
+p3 mode 0 walk_us 128.4 encode_us 634.2 gpu_us 1380 wall_us 3350 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.4 runnable 0 waited_ms 248.22 events 0
+p3 mode 0 walk_us 61.0 encode_us 352.6 gpu_us 1380 wall_us 3077 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 247.31 events 0
+p3 mode 0 walk_us 124.5 encode_us 644.9 gpu_us 1382 wall_us 3697 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.0 runnable 0 waited_ms 246.87 events 0
+p3 mode 0 walk_us 42.1 encode_us 115.9 gpu_us 1379 wall_us 2282 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.28 events 0
+p3 mode 0 walk_us 99.3 encode_us 207.3 gpu_us 1395 wall_us 2642 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.2 runnable 0 waited_ms 249.32 events 0
+p3 mode 0 walk_us 31.5 encode_us 169.0 gpu_us 1384 wall_us 2479 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.28 events 0
+p3 mode 0 walk_us 107.5 encode_us 612.7 gpu_us 1381 wall_us 3664 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 247.35 events 0
+p3 mode 0 walk_us 111.2 encode_us 650.8 gpu_us 1379 wall_us 3735 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.0 runnable 0 waited_ms 248.15 events 0
+p3 mode 0 walk_us 18.5 encode_us 124.3 gpu_us 1379 wall_us 2164 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 248.88 events 0
+p3 mode 0 walk_us 49.0 encode_us 126.5 gpu_us 1385 wall_us 2228 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.05 events 0
+p3 mode 0 walk_us 125.5 encode_us 490.2 gpu_us 899 wall_us 2864 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 247.51 events 0
+p3 mode 0 walk_us 136.1 encode_us 600.5 gpu_us 1379 wall_us 3334 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.3 runnable 0 waited_ms 248.17 events 0
+p3 mode 0 walk_us 102.9 encode_us 627.1 gpu_us 1382 wall_us 3279 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.5 runnable 0 waited_ms 248.63 events 0
+p3 mode 0 walk_us 45.9 encode_us 148.9 gpu_us 1385 wall_us 2409 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.6 runnable 0 waited_ms 249.79 events 0
+p3 mode 0 walk_us 139.8 encode_us 613.8 gpu_us 1224 wall_us 3168 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 246.91 events 0
+p3 mode 0 walk_us 128.7 encode_us 569.5 gpu_us 899 wall_us 2730 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.1 runnable 0 waited_ms 249.21 events 0
+p3 mode 0 walk_us 106.5 encode_us 490.5 gpu_us 1378 wall_us 3128 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 246.77 events 0
+p3 mode 0 walk_us 18.0 encode_us 112.5 gpu_us 1380 wall_us 2185 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 250.04 events 0
+p3 mode 0 walk_us 54.1 encode_us 324.6 gpu_us 1375 wall_us 2740 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.0 runnable 0 waited_ms 249.28 events 0
+p3 mode 0 walk_us 267.5 encode_us 539.4 gpu_us 1114 wall_us 3320 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.5 runnable 0 waited_ms 247.68 events 0
+p3 mode 0 walk_us 56.9 encode_us 478.0 gpu_us 1379 wall_us 3048 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 248.19 events 0
+p3 mode 0 walk_us 78.6 encode_us 473.2 gpu_us 1378 wall_us 3075 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 248.54 events 0
+p3 mode 0 walk_us 38.8 encode_us 105.7 gpu_us 1383 wall_us 2296 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.42 events 0
+p3 mode 0 walk_us 115.1 encode_us 716.0 gpu_us 1385 wall_us 3905 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 245.8 runnable 0 waited_ms 247.46 events 0
+p3 mode 0 walk_us 124.7 encode_us 628.7 gpu_us 931 wall_us 2801 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.0 runnable 0 waited_ms 249.34 events 0
+p3 mode 0 walk_us 103.6 encode_us 486.8 gpu_us 1379 wall_us 3054 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 248.85 events 0
+p3 mode 0 walk_us 70.9 encode_us 231.3 gpu_us 1379 wall_us 2546 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.4 runnable 0 waited_ms 247.88 events 0
+p3 mode 0 walk_us 39.0 encode_us 137.8 gpu_us 1386 wall_us 2410 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.43 events 0
+p3 mode 0 walk_us 85.6 encode_us 534.8 gpu_us 1384 wall_us 3108 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 248.33 events 0
+p3 mode 0 walk_us 46.2 encode_us 314.1 gpu_us 1210 wall_us 2612 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.2 runnable 0 waited_ms 249.33 events 0
+p3 mode 0 walk_us 51.2 encode_us 162.0 gpu_us 1381 wall_us 2473 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.03 events 0
+p3 mode 0 walk_us 39.3 encode_us 92.9 gpu_us 1382 wall_us 2222 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.88 events 0
+p3 mode 0 walk_us 39.0 encode_us 193.0 gpu_us 920 wall_us 2079 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.9 runnable 0 waited_ms 250.00 events 0
+p3 mode 0 walk_us 90.6 encode_us 405.4 gpu_us 1380 wall_us 2873 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 248.51 events 0
+p3 mode 0 walk_us 76.7 encode_us 205.5 gpu_us 956 wall_us 2162 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 248.77 events 0
+p3 mode 0 walk_us 129.4 encode_us 671.5 gpu_us 1380 wall_us 3704 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.0 runnable 0 waited_ms 246.88 events 0
+p3 mode 0 walk_us 34.4 encode_us 138.4 gpu_us 1380 wall_us 2206 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.03 events 0
+p3 mode 0 walk_us 66.8 encode_us 359.2 gpu_us 1380 wall_us 2883 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.0 runnable 0 waited_ms 248.21 events 0
+p3 mode 0 walk_us 109.0 encode_us 481.0 gpu_us 1380 wall_us 3005 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.8 runnable 0 waited_ms 247.18 events 0
+p3 mode 0 walk_us 125.8 encode_us 528.6 gpu_us 1381 wall_us 3298 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.5 runnable 0 waited_ms 248.43 events 0
+p3 mode 0 walk_us 121.0 encode_us 496.1 gpu_us 991 wall_us 2718 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.1 runnable 0 waited_ms 248.06 events 0
+p3 mode 0 walk_us 40.5 encode_us 227.1 gpu_us 802 wall_us 1875 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.1 runnable 0 waited_ms 249.35 events 0
+p3 mode 0 walk_us 101.7 encode_us 559.2 gpu_us 1379 wall_us 3227 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.5 runnable 0 waited_ms 248.79 events 0
+p3 mode 0 walk_us 70.4 encode_us 443.3 gpu_us 1379 wall_us 3069 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 247.34 events 0
+p3 mode 0 walk_us 108.2 encode_us 634.9 gpu_us 1379 wall_us 3245 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.5 runnable 0 waited_ms 247.42 events 0
+p3 mode 0 walk_us 65.2 encode_us 359.3 gpu_us 1376 wall_us 2861 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.0 runnable 0 waited_ms 248.99 events 0
+p3 mode 0 walk_us 37.0 encode_us 118.5 gpu_us 968 wall_us 1933 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.0 runnable 0 waited_ms 249.50 events 0
+p3 mode 0 walk_us 97.1 encode_us 437.9 gpu_us 1380 wall_us 2965 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 247.14 events 0
+p3 mode 0 walk_us 80.9 encode_us 518.2 gpu_us 1379 wall_us 3458 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.4 runnable 0 waited_ms 247.16 events 0
+p3 mode 0 walk_us 84.5 encode_us 488.8 gpu_us 1377 wall_us 2963 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 247.64 events 0
+p3 mode 0 walk_us 73.0 encode_us 202.7 gpu_us 1382 wall_us 2654 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.3 runnable 0 waited_ms 247.69 events 0
+p3 mode 0 walk_us 46.5 encode_us 127.0 gpu_us 1386 wall_us 2295 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.66 events 0
+p3 mode 0 walk_us 61.6 encode_us 596.2 gpu_us 1378 wall_us 3601 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 246.40 events 0
+p3 mode 0 walk_us 57.3 encode_us 347.8 gpu_us 1378 wall_us 2925 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 247.69 events 0
+p3 mode 0 walk_us 95.7 encode_us 539.0 gpu_us 1382 wall_us 3142 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 247.10 events 0
+p3 mode 0 walk_us 54.0 encode_us 140.4 gpu_us 1378 wall_us 2258 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.22 events 0
+p3 mode 0 walk_us 74.6 encode_us 356.7 gpu_us 1381 wall_us 2777 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.0 runnable 0 waited_ms 247.48 events 0
+p3 mode 0 walk_us 81.0 encode_us 472.0 gpu_us 1380 wall_us 3158 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 248.87 events 0
+p3 mode 0 walk_us 143.8 encode_us 703.7 gpu_us 1381 wall_us 3627 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 246.41 events 0
+p3 mode 0 walk_us 50.5 encode_us 185.3 gpu_us 979 wall_us 2124 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.8 runnable 0 waited_ms 249.00 events 0
+p3 mode 0 walk_us 33.5 encode_us 110.5 gpu_us 1386 wall_us 2389 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.6 runnable 0 waited_ms 248.56 events 0
+p3 mode 0 walk_us 91.5 encode_us 470.8 gpu_us 1378 wall_us 3216 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 248.69 events 0
+p3 mode 0 walk_us 100.8 encode_us 594.4 gpu_us 1384 wall_us 3610 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.2 runnable 0 waited_ms 246.66 events 0
+p3 mode 0 walk_us 98.0 encode_us 607.0 gpu_us 1379 wall_us 3650 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 247.13 events 0
+p3 mode 0 walk_us 92.5 encode_us 203.0 gpu_us 1385 wall_us 2523 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.4 runnable 0 waited_ms 248.08 events 0
+p3 mode 0 walk_us 38.8 encode_us 151.5 gpu_us 1383 wall_us 2562 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.4 runnable 0 waited_ms 248.63 events 0
+p3 mode 0 walk_us 398.2 encode_us 132.8 gpu_us 588 wall_us 1800 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 248.1 runnable 0 waited_ms 248.33 events 0
+p3 mode 0 walk_us 16.7 encode_us 110.0 gpu_us 1378 wall_us 2120 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.9 runnable 0 waited_ms 248.29 events 0
+p3 mode 0 walk_us 56.0 encode_us 150.1 gpu_us 1385 wall_us 2441 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.88 events 0
+p3 mode 0 walk_us 42.6 encode_us 125.0 gpu_us 1380 wall_us 2204 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.41 events 0
+p3 mode 0 walk_us 108.7 encode_us 489.3 gpu_us 1380 wall_us 3022 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.8 runnable 0 waited_ms 247.94 events 0
+p3 mode 0 walk_us 165.6 encode_us 525.7 gpu_us 1026 wall_us 3077 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 247.78 events 0
+p3 mode 0 walk_us 73.2 encode_us 356.4 gpu_us 702 wall_us 2076 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.66 events 0
+p3 mode 0 walk_us 76.8 encode_us 431.6 gpu_us 1379 wall_us 2955 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.8 runnable 0 waited_ms 248.94 events 0
+p3 mode 0 walk_us 35.0 encode_us 111.3 gpu_us 1386 wall_us 2415 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.34 events 0
+p3 mode 0 walk_us 145.1 encode_us 660.3 gpu_us 1382 wall_us 3731 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.1 runnable 0 waited_ms 246.16 events 0
+p3 mode 0 walk_us 53.7 encode_us 141.3 gpu_us 1386 wall_us 2416 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.85 events 0
+p3 mode 0 walk_us 77.0 encode_us 444.2 gpu_us 1319 wall_us 2859 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.9 runnable 0 waited_ms 249.01 events 0
+p3 mode 0 walk_us 121.4 encode_us 557.7 gpu_us 1379 wall_us 3189 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 246.76 events 0
+p3 mode 0 walk_us 52.8 encode_us 143.9 gpu_us 1389 wall_us 2414 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 247.85 events 0
+p3 mode 0 walk_us 22.8 encode_us 130.0 gpu_us 1380 wall_us 2235 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 249.61 events 0
+p3 mode 0 walk_us 68.0 encode_us 417.9 gpu_us 830 wall_us 2301 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.5 runnable 0 waited_ms 248.58 events 0
+p3 mode 0 walk_us 110.4 encode_us 639.1 gpu_us 1383 wall_us 3169 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.6 runnable 0 waited_ms 246.84 events 0
+p3 mode 0 walk_us 18.6 encode_us 122.5 gpu_us 1377 wall_us 2253 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 247.7 runnable 0 waited_ms 248.61 events 0
+p3 mode 0 walk_us 44.5 encode_us 490.5 gpu_us 1382 wall_us 3106 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.7 runnable 0 waited_ms 247.16 events 0
+p3 mode 0 walk_us 106.2 encode_us 572.2 gpu_us 875 wall_us 2928 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 1 soon_ms 246.8 runnable 0 waited_ms 248.63 events 0
+p3 mode 0 walk_us 19.1 encode_us 123.5 gpu_us 1381 wall_us 2124 nq 257 ng 2000 shared 1 w 3024 h 1964
+       30.40 real         0.20 user         0.28 sys
+            90275840  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                6567  page reclaims
+                  41  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                   3  voluntary context switches
+                4178  involuntary context switches
+          1633177435  instructions retired
+          1128471796  cycles elapsed
+           267322400  peak memory footprint

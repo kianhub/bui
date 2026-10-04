@@ -1,0 +1,19 @@
+check v 1 n 4096 w 3024 h 1964 isum 2064126038 leaves 2810719
+blit_sum 4030704707
+probe x 1519 y 991 ref 16580192 tex 16580192 ok True
+probe x 10 y 982 ref 2763059 tex 2763059 ok True
+probe x 66 y 54 ref 5629425 tex 5629425 ok True
+probe x 3022 y 1962 ref 1645601 tex 1645601 ok True
+v 1 n 4096 w 3024 h 1964 f 0 build_us 1680 render_us 19121 present_us 899 drop_us 5413 frame_us 27113 rss_kb 106016
+v 1 n 4096 w 3024 h 1964 f 1 build_us 1933 render_us 25398 present_us 904 drop_us 7367 frame_us 35602 rss_kb 108416
+v 1 n 4096 w 3024 h 1964 f 2 build_us 2227 render_us 21370 present_us 926 drop_us 6742 frame_us 31265 rss_kb 111376
+v 1 n 4096 w 3024 h 1964 f 3 build_us 2313 render_us 22855 present_us 951 drop_us 6625 frame_us 32744 rss_kb 114464
+v 1 n 4096 w 3024 h 1964 f 4 build_us 2411 render_us 22621 present_us 872 drop_us 4770 frame_us 30674 rss_kb 117136
+v 1 n 4096 w 3024 h 1964 f 5 build_us 2497 render_us 32589 present_us 3436 drop_us 5855 frame_us 44377 rss_kb 118976
+v 1 n 4096 w 3024 h 1964 f 6 build_us 2526 render_us 25300 present_us 1046 drop_us 7239 frame_us 36111 rss_kb 120432
+v 1 n 4096 w 3024 h 1964 f 7 build_us 3868 render_us 21277 present_us 935 drop_us 5612 frame_us 31692 rss_kb 121536
+v 1 n 4096 w 3024 h 1964 f 8 build_us 2844 render_us 24147 present_us 951 drop_us 7073 frame_us 35015 rss_kb 122368
+v 1 n 4096 w 3024 h 1964 f 9 build_us 3099 render_us 20578 present_us 970 drop_us 10186 frame_us 34833 rss_kb 122832
+v 1 n 4096 w 3024 h 1964 f 10 build_us 6592 render_us 31905 present_us 983 drop_us 6621 frame_us 46101 rss_kb 123296
+v 1 n 4096 w 3024 h 1964 f 11 build_us 3143 render_us 22968 present_us 976 drop_us 5541 frame_us 32628 rss_kb 123616
+done rss_kb 123616

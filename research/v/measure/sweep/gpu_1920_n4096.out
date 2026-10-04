@@ -1,0 +1,19 @@
+check v 1 n 4096 w 1920 h 1200 isum 373130685 leaves 1239880
+blit_sum 586507923
+probe x 967 y 609 ref 16580192 tex 16580192 ok True
+probe x 10 y 600 ref 2763059 tex 2763059 ok True
+probe x 43 y 35 ref 8553092 tex 8553092 ok True
+probe x 1918 y 1198 ref 1645601 tex 1645601 ok True
+v 1 n 4096 w 1920 h 1200 f 0 build_us 1871 render_us 5797 present_us 444 drop_us 4025 frame_us 12137 rss_kb 62592
+v 1 n 4096 w 1920 h 1200 f 1 build_us 1925 render_us 7126 present_us 460 drop_us 1293 frame_us 10804 rss_kb 65008
+v 1 n 4096 w 1920 h 1200 f 2 build_us 2035 render_us 5837 present_us 470 drop_us 1311 frame_us 9653 rss_kb 67120
+v 1 n 4096 w 1920 h 1200 f 3 build_us 2023 render_us 6297 present_us 452 drop_us 4004 frame_us 12776 rss_kb 69232
+v 1 n 4096 w 1920 h 1200 f 4 build_us 2233 render_us 31400 present_us 471 drop_us 1335 frame_us 35439 rss_kb 72816
+v 1 n 4096 w 1920 h 1200 f 5 build_us 2078 render_us 34292 present_us 2833 drop_us 1373 frame_us 40576 rss_kb 75264
+v 1 n 4096 w 1920 h 1200 f 6 build_us 2298 render_us 7797 present_us 433 drop_us 1347 frame_us 11875 rss_kb 77264
+v 1 n 4096 w 1920 h 1200 f 7 build_us 2376 render_us 4417 present_us 438 drop_us 1384 frame_us 8615 rss_kb 78672
+v 1 n 4096 w 1920 h 1200 f 8 build_us 2379 render_us 4401 present_us 423 drop_us 1958 frame_us 9161 rss_kb 79840
+v 1 n 4096 w 1920 h 1200 f 9 build_us 2122 render_us 4488 present_us 451 drop_us 4057 frame_us 11118 rss_kb 80672
+v 1 n 4096 w 1920 h 1200 f 10 build_us 2112 render_us 7120 present_us 437 drop_us 1370 frame_us 11039 rss_kb 81264
+v 1 n 4096 w 1920 h 1200 f 11 build_us 2038 render_us 6085 present_us 478 drop_us 1375 frame_us 9976 rss_kb 81744
+done rss_kb 81744

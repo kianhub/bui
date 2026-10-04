@@ -1,0 +1,3 @@
+blit_gpu_us 1632
+blit_gpu_us 514
+prof gpu_bangs 4 cpu_runs 2 gpu_passes 4

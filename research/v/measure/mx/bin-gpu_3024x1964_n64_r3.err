@@ -1,0 +1,91 @@
+bang fid 22 ar 5 passes 1 gpu_us 81924 lag_us 63864 wall_us 146118 at_ms 0.0
+blit_gpu_us 1786
+bang fid 85 ar 1 passes 1 gpu_us 13246 lag_us 104 wall_us 13534 at_ms 149.8
+bang fid 22 ar 5 passes 1 gpu_us 79757 lag_us 74 wall_us 79926 at_ms 164.3
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 13893 lag_us 84 wall_us 14093 at_ms 245.1
+bang fid 22 ar 5 passes 1 gpu_us 88577 lag_us 88 wall_us 88928 at_ms 260.2
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 13196 lag_us 82 wall_us 14019 at_ms 350.0
+bang fid 22 ar 5 passes 1 gpu_us 77355 lag_us 139 wall_us 77615 at_ms 365.2
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 13122 lag_us 78 wall_us 13362 at_ms 443.7
+bang fid 22 ar 5 passes 1 gpu_us 83615 lag_us 78 wall_us 83828 at_ms 458.3
+blit_gpu_us 509
+bang fid 85 ar 1 passes 1 gpu_us 14743 lag_us 106 wall_us 15172 at_ms 543.0
+bang fid 22 ar 5 passes 1 gpu_us 87140 lag_us 454 wall_us 87934 at_ms 560.5
+blit_gpu_us 509
+bang fid 85 ar 1 passes 1 gpu_us 11745 lag_us 74 wall_us 11945 at_ms 649.4
+bang fid 22 ar 5 passes 1 gpu_us 88130 lag_us 1045 wall_us 89293 at_ms 662.6
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 15878 lag_us 88 wall_us 16093 at_ms 752.7
+bang fid 22 ar 5 passes 1 gpu_us 92287 lag_us 96 wall_us 92491 at_ms 770.1
+blit_gpu_us 3155
+bang fid 85 ar 1 passes 1 gpu_us 13969 lag_us 91 wall_us 14225 at_ms 866.2
+bang fid 22 ar 5 passes 1 gpu_us 84917 lag_us 254 wall_us 85331 at_ms 881.7
+blit_gpu_us 518
+bang fid 85 ar 1 passes 1 gpu_us 10518 lag_us 78 wall_us 10723 at_ms 967.9
+bang fid 22 ar 5 passes 1 gpu_us 87710 lag_us 973 wall_us 88865 at_ms 980.4
+blit_gpu_us 509
+bang fid 85 ar 1 passes 1 gpu_us 16618 lag_us 78 wall_us 16834 at_ms 1070.1
+bang fid 22 ar 5 passes 1 gpu_us 78667 lag_us 749 wall_us 79540 at_ms 1088.1
+blit_gpu_us 510
+bang fid 85 ar 1 passes 1 gpu_us 15203 lag_us 71 wall_us 15452 at_ms 1168.5
+bang fid 22 ar 5 passes 1 gpu_us 85753 lag_us 70 wall_us 85941 at_ms 1185.2
+blit_gpu_us 2165
+bang fid 85 ar 1 passes 1 gpu_us 15368 lag_us 131 wall_us 15754 at_ms 1274.6
+bang fid 22 ar 5 passes 1 gpu_us 78685 lag_us 81 wall_us 78898 at_ms 1291.7
+blit_gpu_us 3091
+bang fid 85 ar 1 passes 1 gpu_us 14181 lag_us 90 wall_us 14923 at_ms 1374.1
+bang fid 22 ar 5 passes 1 gpu_us 73580 lag_us 124 wall_us 73848 at_ms 1390.3
+blit_gpu_us 1460
+bang fid 85 ar 1 passes 1 gpu_us 11790 lag_us 76 wall_us 12001 at_ms 1466.1
+bang fid 22 ar 5 passes 1 gpu_us 88104 lag_us 113 wall_us 88338 at_ms 1479.3
+blit_gpu_us 507
+bang fid 85 ar 1 passes 1 gpu_us 14097 lag_us 70 wall_us 14425 at_ms 1568.6
+bang fid 22 ar 5 passes 1 gpu_us 86142 lag_us 80 wall_us 86347 at_ms 1584.4
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 17139 lag_us 85 wall_us 17403 at_ms 1671.7
+bang fid 22 ar 5 passes 1 gpu_us 87151 lag_us 92 wall_us 87359 at_ms 1690.8
+blit_gpu_us 513
+bang fid 85 ar 1 passes 1 gpu_us 11959 lag_us 74 wall_us 12270 at_ms 1779.1
+bang fid 22 ar 5 passes 1 gpu_us 72771 lag_us 78 wall_us 73045 at_ms 1792.6
+blit_gpu_us 518
+bang fid 85 ar 1 passes 1 gpu_us 16076 lag_us 86 wall_us 16476 at_ms 1866.7
+bang fid 22 ar 5 passes 1 gpu_us 68115 lag_us 69 wall_us 68320 at_ms 1884.3
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 16634 lag_us 84 wall_us 16843 at_ms 1953.6
+bang fid 22 ar 5 passes 1 gpu_us 76446 lag_us 68 wall_us 76650 at_ms 1971.6
+blit_gpu_us 509
+bang fid 85 ar 1 passes 1 gpu_us 12472 lag_us 81 wall_us 12678 at_ms 2049.1
+bang fid 22 ar 5 passes 1 gpu_us 86901 lag_us 860 wall_us 87981 at_ms 2063.0
+blit_gpu_us 507
+bang fid 85 ar 1 passes 1 gpu_us 12704 lag_us 74 wall_us 12981 at_ms 2152.0
+bang fid 22 ar 5 passes 1 gpu_us 86133 lag_us 69 wall_us 86331 at_ms 2166.3
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 14251 lag_us 91 wall_us 14440 at_ms 2253.5
+bang fid 22 ar 5 passes 1 gpu_us 82670 lag_us 99 wall_us 82909 at_ms 2269.2
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 14544 lag_us 86 wall_us 14742 at_ms 2353.1
+bang fid 22 ar 5 passes 1 gpu_us 89320 lag_us 119 wall_us 89550 at_ms 2369.2
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 18376 lag_us 85 wall_us 18583 at_ms 2459.7
+bang fid 22 ar 5 passes 1 gpu_us 83272 lag_us 784 wall_us 84913 at_ms 2479.5
+blit_gpu_us 1521
+bang fid 85 ar 1 passes 1 gpu_us 12265 lag_us 114 wall_us 12526 at_ms 2566.5
+bang fid 22 ar 5 passes 1 gpu_us 74848 lag_us 1687 wall_us 76653 at_ms 2580.6
+blit_gpu_us 520
+bang fid 85 ar 1 passes 1 gpu_us 16651 lag_us 73 wall_us 16900 at_ms 2658.3
+bang fid 22 ar 5 passes 1 gpu_us 72686 lag_us 456 wall_us 73276 at_ms 2677.6
+blit_gpu_us 510
+bang fid 85 ar 1 passes 1 gpu_us 14377 lag_us 159 wall_us 14761 at_ms 2751.8
+bang fid 22 ar 5 passes 1 gpu_us 88732 lag_us 64 wall_us 88979 at_ms 2767.9
+blit_gpu_us 520
+bang fid 85 ar 1 passes 1 gpu_us 13457 lag_us 65 wall_us 13625 at_ms 2857.9
+bang fid 22 ar 5 passes 1 gpu_us 77128 lag_us 346 wall_us 77599 at_ms 2872.8
+blit_gpu_us 508
+bang fid 85 ar 1 passes 1 gpu_us 15037 lag_us 76 wall_us 15251 at_ms 2951.3
+bang fid 22 ar 5 passes 1 gpu_us 81690 lag_us 69 wall_us 81906 at_ms 2967.8
+blit_gpu_us 510
+bang fid 85 ar 1 passes 1 gpu_us 13589 lag_us 72 wall_us 13808 at_ms 3050.6
+prof gpu_bangs 60 cpu_runs 30 gpu_passes 60

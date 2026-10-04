@@ -1,0 +1,118 @@
+{
+ "machine_state": "Recorded before any run (13:58): uptime 4 days 4:10; load 3.21/3.51/3.94; Apple M3 Pro (12 cores), macOS 27.0.1 (26A434), AC power, 3456x2234 Retina display. Instantaneous top CPU (top -l 2): WindowServer 28.8%, coreaudiod 14.6%, kernel_task 14.3%, Maestro Helper 12.4% + 8.9%, Music 5.6%, talagentd 5.3%, Codex (ChatGPT) renderers 5.3/4.6/4.1%, plus Dia, Ghostty, two claude sessions. GPU \"Device Utilization %\" (ioreg IOAccelerator) 26% at one spot check, 2-25% (median 6%) over a 15 s baseline. No processes were quit. Load stayed 3.2-5.3 during the runs (logged per run in v/repro/logs/run_repro.log); at the end (14:23) load 3.18 and a wakatime-cli process spiked to 55% after the runs finished. Bend: stock checkout 565d7fd (scratchpad/d/bend) for headless P3, p3pace and core; the three window binaries (p3win, dirtywp, p3idle) carry PR #1108's window.c/base.bend (scratchpad/v/bend-window-runtime/bend-pr, +123/-18 lines, uncommitted) because stock window.c has no backingScaleFactor; I reused the gap-fill's original p3/p3, p3/p3win, core/core and dirty/dirtywp binaries copied to scratchpad/v/repro and built only the two new probes there (p3/p3pace, p3/p3idle, each build about 1.4 s). No .gpu archive is persisted, so the first frame of every run recompiles the device program (about 30-300 ms) and is dropped (5 frames headless/window, 10 core, as the original scripts did). Everything is under research/v/repro: run_repro.sh, run_follow.sh, run_idle.sh, stats.py, idlestats.py, logs in mx/ win/ win2/ cmx/ idle/.",
+ "p3_sync_safety": "Yes, the GPU is guaranteed to finish before the Scene goes back to Bend, but by a blocking wait, not by typing. In research/v/gapfill/p3/p3fx.c, p3_go encodes (line 279), optionally presents (281), then `[cb commit];` (284) and `[cb waitUntilCompleted];` (285), checks `[cb error]` (287-289), and only then `return io_tup(e, qs, gs);` (294); p3_present_run (319-323) wraps that return. The heap is wrapped no-copy and untracked (`newBufferWithBytesNoCopy:e.mem ... MTLResourceHazardTrackingModeUntracked`, 179-181), so if the wait were removed the drivers' `p3.drop`/`p3w.drop` right after the effect would let the allocator reuse the words while the GPU reads them; the wait is the only protection. Because it already exists I did not add a fence and did not run an unsafe no-wait variant. Cost of the design, from the headless logs: effect wall minus GPU minus walk minus encode is 198 \u00b5s median (176-233 \u00b5s across runs), i.e. about 0.2 ms of commit-plus-completion latency per frame on top of the whole GPU interval (0.15-0.4 ms headless, 1.5-1.9 ms median and 3.5-3.7 ms p90 in the window), all of it on the Bend IO thread, which is blocked for the effect's duration (need 0, inline in io_step). Side note from the same read: p3_corpus (169-185) silently caps the wrapped length at maxBufferLength instead of failing as Base's window_corpus does.",
+ "rows": [
+  {
+   "what": "P3 headless 1920x1200, N=256 cards, 2,000 glyphs, mode 0, own device (--gpu off)",
+   "original_claim": "GPU 0.143-0.146 ms, effect wall 0.37-0.42 ms, frame 0.42-0.47 ms",
+   "runs": "3 x 95 kept frames (100 run, 5 dropped)",
+   "median": "GPU 147 \u00b5s, wall 364 \u00b5s, frame 417 \u00b5s",
+   "range": "run medians: GPU 139 / 147 / 308 \u00b5s; frame 398-559 \u00b5s; frame p90 663 \u00b5s",
+   "reproduced": "yes",
+   "note": "Two runs match the claim exactly; the third ran 2x slower on the GPU (308 \u00b5s, never below 240) with no change in our work, so external GPU state moves this number by 2x between runs seconds apart. walk 8.5 \u00b5s, encode 6.7 \u00b5s."
+  },
+  {
+   "what": "P3 headless 1920x1200, same scene, shared bang-runtime device/queue/heap",
+   "original_claim": "same row (table did not separate executors): frame 0.42-0.47 ms",
+   "runs": "3 x 95",
+   "median": "GPU 207 \u00b5s, wall 422 \u00b5s, frame 481 \u00b5s",
+   "range": "GPU 180-241 \u00b5s; frame 441-541 \u00b5s; p90 898 \u00b5s",
+   "reproduced": "partly",
+   "note": "10-20% above the claimed frame range; the shared path is consistently a bit slower than the own-device path here."
+  },
+  {
+   "what": "P3 headless 3024x1964, N=256, 2,000 glyphs, own device",
+   "original_claim": "GPU 0.342 ms, wall 0.57-0.65 ms, frame 0.62-0.71 ms",
+   "runs": "3 x 95",
+   "median": "GPU 396 \u00b5s, wall 603 \u00b5s, frame 654 \u00b5s",
+   "range": "GPU run medians 339 / 396 / 397 \u00b5s; frame 592-685 \u00b5s; p90 787 \u00b5s",
+   "reproduced": "yes",
+   "note": "Frame inside the claimed range; GPU time 0-16% above 342 \u00b5s in two of three runs."
+  },
+  {
+   "what": "P3 headless 3024x1964, shared bang runtime",
+   "original_claim": "frame 0.62-0.71 ms",
+   "runs": "3 x 95",
+   "median": "GPU 444 \u00b5s, wall 693 \u00b5s, frame 744 \u00b5s",
+   "range": "GPU 340-587 \u00b5s; frame 642-881 \u00b5s; p90 1071 \u00b5s",
+   "reproduced": "partly",
+   "note": "Median frame 5% above the top of the claimed range, one run 24% above."
+  },
+  {
+   "what": "P3 in a real 2x window (1512x982 pt, 3024x1964 drawable, PR #1108 runtime), frame median and % over 12.5 ms",
+   "original_claim": "8.26 ms median, locked to vsync, 0% of frames over 12.5 ms (no missed frames); GPU 2.55 ms vs 0.34 ms headless",
+   "runs": "3 x 115 kept frames (120 run, 5 dropped); plus 3 x 115 with P3_OWNQ=1 and 2 x 115 more in the follow-up",
+   "median": "frame 8,317 \u00b5s; GPU 1,491 \u00b5s; present effect 8,306 \u00b5s",
+   "range": "frame run medians 8,282-8,323 \u00b5s, p90 9,136, max 17,687; 5/345 frames over 12.5 ms (1.4%; per run 2, 2, 1), 38/345 over 9 ms, 0 over 25 ms; GPU run medians 1,449-1,622 \u00b5s, p90 3,520, min 397. P3_OWNQ=1: frame 8,298 (8,280-8,298), 3/345 over 12.5 ms, GPU 1,710 (1,580-1,912). Follow-up plain runs: 8,306 (8,288-8,323), 2/230 over 12.5 ms, GPU 1,624 (1,392-1,856)",
+   "reproduced": "partly",
+   "note": "The vsync-locked median reproduces; '0% / no missed frames' does not: 1.4% of frames exceeded 12.5 ms, and the worst frame was 17.7 ms. The median says nothing about headroom because the effect blocks in nextDrawable for most of the frame (encode_us median 5.8-6.1 ms). In-window GPU time was 1.5-1.9 ms, lower than the claimed 2.55 (which was one run of three; the original runs were 1.75 / 2.93 / 2.55)."
+  },
+  {
+   "what": "P2-CPU full redraw in the 2x window (dirtywp UI_MODE=1 UI_SCEN=1, hash texels, --gpu off)",
+   "original_claim": "16.87 ms median, 100% of frames over 12.5 ms",
+   "runs": "3 x 115",
+   "median": "frame 17,906 \u00b5s; render 13,972 \u00b5s; present 2,220 \u00b5s",
+   "range": "run medians 17,793-18,075 \u00b5s; p90 19,350; max 25,941; 345/345 over 12.5 ms, 2/345 over 25 ms",
+   "reproduced": "yes",
+   "note": "6% slower than claimed; about 56-60 Hz, as the report says."
+  },
+  {
+   "what": "P2-CPU incremental in the 2x window: nothing changed (s0) / hover (s1) / caret (s2) / scrolling text column (s3)",
+   "original_claim": "8.33-8.36 ms with 1-2% over 12.5 ms for s0/s1/s2; 8.38 ms with 4% for s3",
+   "runs": "3 x 115 each",
+   "median": "s0 8,339 \u00b5s (render 39 \u00b5s); s1 8,366 (render 1,252); s2 8,353 (render 686); s3 8,486 (render 5,301)",
+   "range": "s0 8,337-8,361, 2/345 over 12.5 ms (0.6%); s1 8,330-8,390, 3/345 (0.9%); s2 8,318-8,360, 1/345 (0.3%); s3 8,418-8,519, 12/345 (3.5%), p90 10,781, 101/345 over 9 ms",
+   "reproduced": "yes",
+   "note": "All four within 0.1 ms and 1 percentage point of the claims. Only s3 shows real pressure (render 5.3 ms of an 8.3 ms budget)."
+  },
+  {
+   "what": "Framework core, 501 elements (125 rows), one expression, --gpu off",
+   "original_claim": "0.171 ms (0.171-0.172)",
+   "runs": "3 x 100 kept frames (110 run, 10 dropped)",
+   "median": "187 \u00b5s",
+   "range": "run medians 185-187 \u00b5s; p90 196; first-10-frame median 134 \u2192 last-10 189 (1.41x ramp)",
+   "reproduced": "partly",
+   "note": "9% above the claim and the median sits on a ramp that is still rising at frame 110."
+  },
+  {
+   "what": "Framework core, 2,001 elements (500 rows)",
+   "original_claim": "0.803-0.810 ms",
+   "runs": "3 x 100, plus 1 x 2,000 frames",
+   "median": "878 \u00b5s (110-frame runs); 966 \u00b5s over 2,000 frames",
+   "range": "run medians 869-880; p90 912; ramp 626 \u2192 913 (1.46x). 2,000-frame run per-100-frame medians: 941, 970, 968, 984, 960, 952, 959, 958, 978, 962, 954, 963, 963, 964, 967, 968, 968, 968, 970, 976",
+   "reproduced": "partly",
+   "note": "+9% on the original protocol; the steady state is about 0.97 ms (+20%). The ramp plateaus within the first 100-200 frames and does not grow afterwards (17 s at this rate)."
+  },
+  {
+   "what": "Framework core, 5,001 elements (1,250 rows)",
+   "original_claim": "2.14-2.15 ms (range 2.10-2.20), p90 2.34",
+   "runs": "3 x 100, plus 2 x 2,000 frames (one with RSS sampled every 0.5 s)",
+   "median": "2,310 \u00b5s (110-frame runs); 2,703 and about 2,390 \u00b5s over the two 2,000-frame runs",
+   "range": "run medians 2,292-2,350; p90 2,601; ramp 1,626 \u2192 2,639 (1.62x). Long run 1 per-100 medians: 2,238, 2,670, 2,635, 2,620, 2,708, 2,682, 2,715, 2,676, 2,716, 3,867 (external spike), 2,962, 2,728, 2,660, 2,688, 2,718, 2,678, 2,765, 2,684, 2,702, 2,770. Long run 2: 2,112, 2,420, 2,448, 2,384, 2,392, 2,390, 2,379, 2,374, 2,378, 2,378, 2,383, 2,380, 2,460, 2,468, 2,470, 2,469, 2,470, 2,372, 2,375, 2,376; RSS flat at 17,168 KB for the whole run",
+   "reproduced": "partly",
+   "note": "+8% on the original protocol; steady state 2.4-2.7 ms (+12-26%) depending on the run. The ramp is a plateau, not growth: RSS does not move and per-100 medians are flat after block 2, so this is a locality/working-set effect, not the #1007 allocator slope, at least over 2,000 frames. The two long runs differ by 12% from external load alone."
+  },
+  {
+   "what": "Probe: P3 headless 3024x1964 with idle gaps between frames (UI_PACE = IO.sleep 3 / 8 / 16 ms), own device",
+   "original_claim": "none (new probe for the GPU-time question)",
+   "runs": "3 x 95 each",
+   "median": "GPU 1,377 \u00b5s at 3 ms gaps; 757 \u00b5s at 8 ms; 758 \u00b5s at 16 ms (vs 339-397 \u00b5s back to back)",
+   "range": "pace 3: 1,376-1,377; pace 8: 756-776; pace 16: 754-782",
+   "reproduced": "yes",
+   "note": "Identical commands, no window, no drawable, no compositor: the GPU interval is 2-4x longer when the GPU idles between short passes. Non-monotonic in the gap (3 ms is worst)."
+  },
+  {
+   "what": "Probe: P3 in the 2x window while another process saturates the GPU (headless P3 compute kernel, 16.1 ms of GPU per dispatch, 400 dispatches)",
+   "original_claim": "none (new probe)",
+   "runs": "2 x 115 busy, alternated with 2 x 115 plain",
+   "median": "busy: frame 10,196 \u00b5s, GPU 2,786 \u00b5s; plain: frame 8,306 \u00b5s, GPU 1,624 \u00b5s",
+   "range": "busy: frame 9,914-10,478, 83/230 over 12.5 ms (36%), GPU 2,398-3,175, p90 4,156, min 342; corr(encode, gpu) -0.11..+0.20. plain: 2/230 over 12.5 ms, GPU 1,392-1,856, min 341; corr -0.91..-0.70",
+   "reproduced": "yes",
+   "note": "A saturating load adds contention (GPU time up, 120 Hz lost) and removes the encode/GPU anti-correlation; it does not drive GPU time down, so it cannot by itself confirm a clock effect. Minimum in-window GPU time (341-397 \u00b5s) equals the headless median in every window run."
+  }
+ ],
+ "window_gpu_time": "The in-window GPU interval is longer than headless mostly because the same 0.34-0.40 ms pass executes slower when the GPU idles between vsync-paced submissions, with compositor overlap on top; it is not a bigger drawable, not the shared queue, and not the drawable wait leaking into the timestamp. Evidence: (1) Drawable size and format are identical: every window log prints w 3024 h 1964 and the layer is BGRA8Unorm (bend-pr window.c:274-277), the same as the headless texture. (2) Queue: P3_OWNQ=1 (private device and queue) gives 1,710 \u00b5s median vs 1,491 \u00b5s shared, so sharing gpu_que is not the cause. (3) Timestamps: GPUStartTime/GPUEndTime bracket the command buffer's execution; the blocking nextDrawable sits in encode_us (CPU side, median 5.8-6.1 ms in the window), not in gpu_us, so the drawable wait is not being counted as GPU time. But the execution interval is not pure shading cost: the minimum in-window gpu_us is 341-397 \u00b5s in every window run, exactly the headless median, so when the GPU is already clocked up the pass costs the same in the window. (4) Clock/power state: with no window at all, inserting IO.sleep gaps between headless frames raises gpu_us for identical commands from 339-397 \u00b5s to 1,377 \u00b5s (3 ms gaps), 757 \u00b5s (8 ms) and 758 \u00b5s (16 ms), 3 runs each with run medians within 2%. That alone accounts for 2-4x. (5) Compositor overlap/slack filling in the window: encode_us and gpu_us are anti-correlated (corr -0.43..-0.53 in the matrix runs, -0.70..-0.91 in the follow-up plain runs; the original logs showed -0.69..-0.89) and encode+gpu is a near-constant 7.5-7.7 ms per frame; in run 1, frames with gpu < 0.8 ms had a 7.0 ms nextDrawable wait while frames with gpu > 2.5 ms had a 4.2 ms wait. So when the drawable comes back early in the vsync interval the pass runs slowly (concurrently with WindowServer's compositing of the previous frame and at a low clock), and when it comes back late it runs at headless speed; the GPU interval expands to fill the slack. (6) Contention is real but cuts the other way: with another process saturating the GPU (16 ms dispatches), in-window gpu_us rose to 2.8 ms median, 36% of frames missed 12.5 ms, and the anti-correlation vanished, so the plain-window stretch is slack filling plus light compositor contention, not heavy contention. Also, presenting every vsync raised GPU Device Utilization from 6% to 57% and WindowServer CPU from 28% to 44%, so the compositor is busy on the GPU in the same intervals. Net: the 2.55 ms figure (one run; this session 1.45-1.9 ms median, 3.5-3.7 ms p90) is the execution interval of a 0.35 ms pass under vsync-paced DVFS and compositor overlap. It is still real time the Bend thread spends blocked in waitUntilCompleted, so for a serialized design it belongs in the budget at the p90 (3.5-4.2 ms), not at the headless 0.34 ms; what it does not mean is that shading got 7x more expensive.",
+ "idle_cost": "Measured with p3idle (scratchpad/v/repro/p3/main_p3idle.bend, p3wait.c): the Scene built once, a real 2x window, 30 s per mode, 1 s samples of top (process and WindowServer) and ioreg IOAccelerator Device Utilization; powermetrics needs sudo and was not used. Baseline with nothing of ours running: WindowServer 28% CPU, GPU utilization 6% median (2-25%). Mode 0, P3.present every vsync with an unchanged Scene, 3,600 frames in 31.2 s: the Bend process used 13.4% of a core median (5-17%; time -l: 1.83 s user + 2.32 s sys over 31.16 s real = 13.3%), WindowServer rose to 44% (+16 points), and GPU utilization held at 57% (55-60%) for the whole 30 s. That is the cost of redrawing an unchanged screen at 120 Hz: about an eighth of a core, a sixth of a core more in WindowServer, and the GPU kept half-busy (at reduced clocks) for 2,000 glyphs and 256 quads. Mode 1, blocking wait bounded by the next timer: a new effect P3.wait(win, max_ms, bounded) (need 0, inline) drains AppKit events then blocks in nextEventMatchingMask until an event or a deadline; with bounded=1 the deadline is min(now + max_ms, io_park->next->time), the runtime's soonest parked timer (the same cell io_wait reads), and it refuses to block when io_runs is non-empty (another task is runnable). The Bend loop yields with IO.sleep(0) before the wait and before the present, otherwise spawned tasks never park their timers (first smoke test: soon_ms -1, every tick arrived after the loop ended). A spawned ticker (IO.sleep 250 ms, print, Chan.send) and a spawned consumer (Chan.recv, print latency) ran alongside. Result over 120 wakes: process CPU 1.0% median (time -l 0.20 user + 0.28 sys over 30.4 s = 1.6%), WindowServer 31% (about baseline), GPU utilization 3% median; waits ended at the timer deadline (248 ms median, 18-251 ms); 118 of 120 ticks fired while the main loop was blocking, at 251.4 ms intervals (250.2-252.8, target 250), so timers do run; channel messages reached the consumer 2.9 ms median, 4.4 ms max after sending, the delay being the inline present between yield points, so channels run too. Control, same wait unbounded (max 1,000 ms): 0.1% CPU, but ticks were starved to 1,003 ms intervals (= the wait) and only 28 of 40 fired during the loop. So a blocking wait works only if it is bounded by the runtime's timer heap and yields to runnable tasks; limits: fd-parked tasks (sockets, pipes) are not covered by the bound, any inline effect delays other tasks by its own duration (the 1-8 ms present here), and the fully correct form is an IO_READ effect on a pipe fed by the event source so io_wait's select covers events, fds and timers together.",
+ "limiter": "Every number is bounded by (a) external load: load average 3.2-5.3 throughout, WindowServer 28-30% CPU, Maestro, Codex renderers, coreaudiod, Music; baseline GPU utilization 2-26% from other apps; this moved identical headless GPU runs by 2x (139 vs 308 \u00b5s) seconds apart and the two 2,000-frame core runs by 12%; (b) the vsync lock: in-window frame medians of 8.3 ms measure the display period, not headroom, because the present effect blocks in nextDrawable; (c) GPU time semantics: GPUStart/EndTime is an execution interval that includes clock state and compositor overlap, so in-window gpu_us is a critical-path time, not a shading cost, and it varies 0.34-7.7 ms within a run; (d) the Device Utilization counter is undocumented and reflects the whole GPU including the compositor; (e) 110-frame core runs put the median on a ramp; the 2,000-frame runs (17 s) show a plateau but nothing beyond it; RSS was sampled externally at 0.5 s; (f) the window binaries run on a patched runtime (PR #1108, uncommitted), not stock HEAD; (g) the first frame of every run recompiles the device program and is dropped; (h) 1 s top samples for CPU%, cross-checked with time -l totals; (i) the GPU-busy probe is confounded by contention (16 ms dispatches), so it does not isolate clock state; the paced headless probe does; (j) the end-to-end core-to-P3 path still did not run: the core emits SpCon sprites and P3 reads GCons nodes, so no row here combines them; (k) 3 runs per cell, 95-115 kept frames each, no statistical test, medians of run medians with ranges.",
+ "summary": "Reproduced on the same machine, alone, alternating variants, 3 runs each: P3 headless at 1920x1200 and 3024x1964 matches the claimed frame times (0.42 and 0.65 ms median, own device) with GPU time 0.15 and 0.40 ms, though one headless run was 2x slower on the GPU from external load; the P2 window rows reproduce within 6% (full redraw 17.9 ms, 100% over 12.5 ms; incremental 8.34-8.49 ms with 0.3-3.5% over); the core is 8-9% slower than claimed (0.187 / 0.878 / 2.31 ms) and its 110-frame medians sit on a 1.4-1.6x ramp that plateaus within 100-200 frames at 0.97 ms (2,001 elements) and 2.4-2.7 ms (5,001), with RSS flat, so the reviewers' ramp is real but bounded, and the honest steady-state core numbers are 15-25% above the report's. P3 in the 2x window reproduces the vsync-locked 8.3 ms median but not 'no missed frames': 5 of 345 frames exceeded 12.5 ms (1.4%), worst 17.7 ms. p3fx.c is safe because it calls commit and waitUntilCompleted (lines 284-285) before returning the lists (line 294); the explanation's affine-typing claim should be replaced by that wait, which costs about 0.2 ms of latency plus the whole GPU interval on the Bend thread. The 2.55 ms in-window GPU time (1.45-1.9 ms here, p90 3.5 ms) is the execution interval of the same 0.35 ms pass run at low clocks with idle gaps (paced headless with no window already gives 0.76-1.38 ms) and overlapped with the compositor (encode+gpu is constant at 7.5-7.7 ms, anti-correlation -0.4 to -0.9); it is not drawable size (identical), not the shared queue (P3_OWNQ same), and the minimum in-window GPU time equals the headless median. Idle: presenting an unchanged scene every vsync costs 13% of a core in Bend, +16 points of WindowServer CPU and 57% GPU utilization against a 6% baseline; a blocking wait bounded by the runtime's soonest timer (io_park) and by runnable tasks (io_runs), with IO.sleep(0) yields, drops that to 1% CPU and 3% GPU while a 250 ms ticker fires within 1.4 ms of schedule and channel messages arrive within 3 ms; an unbounded wait starves timers to the wait length. The verdict's P3 ranking survives; its 'well under 8.3 ms' margin, 'no missed frames', and the median core figures should be restated with the steady-state core (2.4-2.7 ms at 5k elements), the in-window GPU p90 (3.5-4.2 ms) on the serialized critical path, and the 1.4% missed-frame rate."
+}

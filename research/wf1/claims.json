@@ -1,0 +1,226 @@
+{
+ "draft_verdict": "A literal zui port written entirely in Bend is not viable. Bend can reach native APIs only through `.c`/`.js` effect files that run on the event loop. Its GPU lane is one compute kernel with no raster pipeline and a per-`!` floor of roughly 0.25-0.45 ms. Its closures are affine, which rules out GPUI's `impl Fn` listener API. So the platform layer, the renderer and the public API all have to depart from zui. What is viable is a GPUI-inspired framework whose framework logic is Bend (entity store, element tree, layout, hit testing, focus and key dispatch, scene, rasterizer) and whose platform layer is one thin Objective-C effect that reuses Base's `Window` handle. Bend's own `window.c` already splits things this way, and so does backplane-bend, a desktop UI written in about 91k lines of Bend (X11 only). The most credible path is P2. It keeps Elm-style message data over a pure Bend tree, does flex layout in Bend, gets shaping and glyph bitmaps from CoreText through an effect, rasterizes into `Image` on the CPU pool (measured faster than `!` for flat UI frames), and adds a custom window effect for resize, HiDPI, text and IME. P3 (a Metal primitive renderer in MSL) is the upgrade if GPUI-level visuals are required. \"A gpuix for Bend\" points the wrong way, because remorses/gpuix is a binding to native GPUI. That binding shape (P4/P5) is the fastest route to real GPUI pixels, but it leaves no GPUI code written in Bend.",
+ "paths": [
+  {
+   "name": "P1: Stock Base only (App.run + Window.frame + Image quadtree)",
+   "what_is_bend": "Everything: app state, element tree, layout, hit testing, a bitmap or stroke font (like Slash Boss's Font.glyph), and rasterization into the Image quadtree.",
+   "what_is_not_bend": "Nothing beyond Base's own bend2/effs/window.c.",
+   "blockers": "The window has a fixed size and renders at 1x (no resize, no HiDPI). Keys arrive as the lowercased first character or 65536+keyCode, with no text input, IME, clipboard or cursor shapes. Color is 24-bit with alpha forced to 1, so there is no blur or transparency. There are no real fonts. Window.frame starves other IO unless each frame also calls IO.sleep(0). The ceiling is a toy, not a GPUI-class toolkit.",
+   "effort": "Estimate: 2-4 weeks for a demo widget set. It cannot reach parity because the Base window lacks the required events."
+  },
+  {
+   "name": "P2 (recommended): Bend framework core + thin native window/text shim, Image present",
+   "what_is_bend": "Id-keyed entity store holding a closed sum of states (lease, update, reinsert). Element tree as a closed sum type (Div|Text|Img|List|UniformList|...). Listeners as defunctionalized Msg data interpreted by update. A flexbox subset replacing taffy. Hitboxes, focus path, keymap and action dispatch. Line wrapping over cached glyph metrics. A GPUI-style flat Scene with a glyph atlas held in Bend. A rasterizer into Image: CPU pool by default, host-binned `!` tiles optionally.",
+   "what_is_not_bend": "One Objective-C effect file that reuses the Window handle (WONTFIX #825). It adds resizable and HiDPI windows, full key, modifier and typed-text events, an IME marked-text snapshot, clipboard and cursor. It also does CoreText shaping and glyph rasterization, returned as U32 lists or arrays. Linux needs a second shim; backplane-bend's dlopen'd X11 effect is the precedent.",
+   "blockers": "The effect internals carry no ABI promise, so Bend has to be pinned. IME needs synchronous OS-to-app queries, which means either a per-frame snapshot or the unsupported corpus_eval re-entry hack. Rebuilding a dense quadtree every frame writes 5-10 MB of heap, and open issues #1007/#1307 report allocation slowdown in long-lived processes. There is no mutual recursion without @unsafe, which hurts tree walkers, and no traits, so the element set is closed. Numbers are U32/F32 only. Strings are cons lists.",
+   "effort": "Estimate: 4-8 engineer-months for a usable macOS subset (div, text, list, uniform_list, img, flex layout, focus and keys, scrolling). Add about 1-2 months for the Linux shim."
+  },
+  {
+   "name": "P3: Bend framework core + native Metal primitive renderer",
+   "what_is_bend": "Same as P2 up to and including the Scene: sorted, batched primitive lists (quads, shadows, sprites, underlines, paths).",
+   "what_is_not_bend": "An Objective-C effect that walks the Bend Scene list in C and encodes instanced draws using a port of zui's shaders.metal (1,377 lines of MSL). It also handles atlas texture upload, the MSAA path pass and the backdrop blur pass. Plus the same window and text shim as P2.",
+   "blockers": "The shaders are MSL, not Bend, which strains 'fully Bend' further. It is macOS only: there is no Vulkan lane (WONTFIX #811), so Linux would fall back to P2's CPU raster or CUDA. Walking Bend terms in C every frame has a marshalling cost. Sharing gpu_dev and the queue with the bang runtime under HazardTrackingModeUntracked is untested.",
+   "effort": "Estimate: P2 plus 1-2 months for the renderer. In return it matches GPUI visuals: alpha, blur, antialiased paths, sharp HiDPI text."
+  },
+  {
+   "name": "P4: Bend bindings over native zui (the literal 'gpuix' shape)",
+   "what_is_bend": "App model, update, and a view that emits a retained-tree mutation batch or opcode buffer, as gpuix's applyBatch and gpui-moonbit's gpui_build_tree do.",
+   "what_is_not_bend": "All of zui (152,848 Rust lines; 301-crate closure on aarch64-apple-darwin) plus a Rust C-ABI shim; gpuix's packages/native alone is 26,125 lines.",
+   "blockers": "The CLI has no link flags, so the Rust library must be dlopen'd or built with a hand-run clang or CC wrapper. On macOS, zui's MacPlatform::run blocks in NSApplication run, and zui has no pump_events or new_embedded; those patches exist only in remorses/zed. There are no host-to-Bend callbacks (no library target, #813), so events have to be queued and drained once per frame. Synchronous IME and should-close queries are hard. It conflicts with 'written in Bend'.",
+   "effort": "Estimate: 1-3 months to a demo, mostly Rust shim and embedding work."
+  },
+  {
+   "name": "P5: Bend as a pure .mjs module driving @gpuix/native from a JS host",
+   "what_is_bend": "Pure model, update and view (plus laws and proofs), exported with `bend x.bend -o x.mjs`.",
+   "what_is_not_bend": "A JS or Bun host, gpuix's napi binding, and a forked GPUI.",
+   "blockers": "The JS lane is sequential and single-core. Lists must be passed as {$:'Con',head,tail} objects. The host language is JS. It depends on gpuix's GPUI fork.",
+   "effort": "Estimate: days to a prototype. Useful as a fast API-design spike, not as the product."
+  }
+ ],
+ "claims": [
+  {
+   "id": "C1",
+   "domain": "bend-language",
+   "claim": "Bend 2 closures are affine. A record field of closure type cannot appear in a `Data` type, and applying the same closure twice (`f(f(s))`) is rejected.",
+   "evidence": "research/b/bend/guide/GUIDE.md:83-85 ('A closure is affine: it can be called at most once'). Rerun by reconciler: `bun .../b/bend/bend2/main.ts reuse.bend` and `twice.bend` in .../scratchpad/b/exp/clo both fail, at `on_click: U32 -> U32` and at `f` respectively.",
+   "load_bearing": true
+  },
+  {
+   "id": "C2",
+   "domain": "gpui",
+   "claim": "GPUI's click API stores shared, multi-call closures: `on_click(listener: impl Fn(&ClickEvent,&mut Window,&mut App) + 'static)` pushes `Rc::new(move |..| listener(..))` onto `click_listeners`.",
+   "evidence": "research/a/zui/crates/gpui/src/elements/div.rs:575-582",
+   "load_bearing": true
+  },
+  {
+   "id": "C3",
+   "domain": "bend-language",
+   "claim": "The defunctionalized replacement works today: a `Msg` ADT stored in a `Data` Button node and dispatched by a top-level `update` type-checks and runs.",
+   "evidence": "`bun .../b/bend/bend2/main.ts defun.bend` in research/b/exp/clo prints `10` (rerun by reconciler). Also .../scratchpad/c/exp/ui_data.bend prints a Column tree.",
+   "load_bearing": true
+  },
+  {
+   "id": "C4",
+   "domain": "bend-runtime-gpu",
+   "claim": "Base's only screen-output API is `Window.frame(window: Window, image: Image)`, where `Image` is `Pix{color: U32} | Qua{tl,tr,bl,br}`. Base has no draw-primitive, texture or display-list API.",
+   "evidence": "research/b/bend/bend2/base.bend:74-76 (Image), 377-380 (Window.frame), 370-400 (the full Window API: open, frame, set_title, grab, close)",
+   "load_bearing": true
+  },
+  {
+   "id": "C5",
+   "domain": "bend-runtime-gpu",
+   "claim": "Base's macOS window is neither resizable nor HiDPI. The styleMask is Titled|Closable|Miniaturizable, drawableSize is set to the point size, and backingScaleFactor is never read.",
+   "evidence": ".../scratchpad/b/bend/bend2/effs/window.c:214-215 (styleMask), 230 (`layer.drawableSize = CGSizeMake(w, h)`). `grep backingScale window.c` finds nothing. A probe in .../scratchpad/b/exp/win printed `backingScaleFactor 2.0 contentsScale 1.0 drawableSize 512x512`.",
+   "load_bearing": true
+  },
+  {
+   "id": "C6",
+   "domain": "bend-runtime-gpu",
+   "claim": "Base `Event` carries no typed text, IME, resize, focus, click-count or mouse-modifier information. Key codes are the lowercased first character of charactersIgnoringModifiers, else 65536+keyCode.",
+   "evidence": ".../scratchpad/b/bend/bend2/base.bend:78-84 (Key, Mouse, Move, Look, Scroll, Close); .../b/bend/bend2/effs/window.c:70-89 (key mapping)",
+   "load_bearing": true
+  },
+  {
+   "id": "C7",
+   "domain": "bend-language",
+   "claim": "Native code enters a Bend program only as `.c`/`.js` foreign effect files spliced into the single emitted C file. A foreign def must return base IO directly, and foreign code runs only on the event loop, never on the GPU. So any platform layer (windowing, input, OS text) has to be C or Objective-C, not Bend.",
+   "evidence": ".../scratchpad/b/bend/bend2/comp.ts:2722-2735 (effect_srcs for .c/.js); .../b/bend/bend2/bend.ts:3863-3872 (must return base IO); .../b/bend/guide/GUIDE.md:408-409 ('Only the event loop runs them')",
+   "load_bearing": true
+  },
+  {
+   "id": "C8",
+   "domain": "bend-runtime-gpu",
+   "claim": "On macOS, a C effect containing `#import` is compiled as Objective-C with `-fobjc-arc -fmodules`, so AppKit, CoreText and Metal link without user flags. CoreText text measurement from a Bend effect was verified.",
+   "evidence": ".../scratchpad/b/bend/bend2/main.ts:428-429 (`objc = mac && (bangs || /^#import /m.test(c))`). Runs: .../scratchpad/b/exp/ffi (CoreText width x1000 = 143179), .../scratchpad/c/exp/ct (width x100 = 12572; otool -L shows CoreText.framework), .../scratchpad/a/exp/ct.c (glyph raster, lit_pixels=83).",
+   "load_bearing": true
+  },
+  {
+   "id": "C9",
+   "domain": "bend-runtime-gpu",
+   "claim": "`bend -o` offers no hook for extra libraries. The link line is objc flags + `-std=c11 -O3 file -lpthread -lm`, plus -lX11/-lasound on Linux only. Linking a Rust zui staticlib therefore needs dlopen, a CC wrapper, or a hand-run clang.",
+   "evidence": ".../scratchpad/b/bend/bend2/main.ts:430-434 (cpu args, libs). .../scratchpad/b/exp/lib: `#pragma comment(lib,\"z\")` gave 'Undefined symbols'; a CC wrapper appending -lz worked.",
+   "load_bearing": true
+  },
+  {
+   "id": "C10",
+   "domain": "bend-runtime-gpu",
+   "claim": "User-defined handle types are a WONTFIX design decision (#825), so a custom window or renderer effect has to reuse Base's linear `Window` handle. Doing so works: a custom effect can read the NSWindow/CAMetalLayer behind it.",
+   "evidence": ".../scratchpad/b/bend/WONTFIX.txt:74 ('A handle type is a law of Base (#825)'); .../b/bend/bend2/base.bend:105-106 (`law Window: Type`); .../scratchpad/b/exp/win (effect read backingScaleFactor through the Window handle); .../scratchpad/c/exp/handle (`def Gpui(): Window` round-trips handle word 42).",
+   "load_bearing": true
+  },
+  {
+   "id": "C11",
+   "domain": "bend-runtime-gpu",
+   "claim": "Bend's effect C API (CID, io_eff, term_* helpers, Env internals) carries no ABI promise and may be renamed in any release.",
+   "evidence": ".../scratchpad/b/bend/guide/EFFECTS.md:138 ('...a release may rename any of them. There is no ABI...')",
+   "load_bearing": false
+  },
+  {
+   "id": "C12",
+   "domain": "bend-runtime-gpu",
+   "claim": "`!` offloads to the GPU only at the root of an IO step. Device code is one compute kernel (bend_dev) with no vertex/fragment pipeline, texture sampling or blend hardware.",
+   "evidence": ".../scratchpad/b/bend/WONTFIX.txt:51 ('`!` goes to the GPU only at the root of an IO step (#1065)'); .../b/bend/bend2/comp.ts:4830-4960 (gpu_run / gpu_kernel / gpu_pass compute dispatches only)",
+   "load_bearing": true
+  },
+  {
+   "id": "C13",
+   "domain": "measurement",
+   "claim": "Each `!` costs roughly 0.24-0.44 ms GPU-side (about 0.4-0.6 ms wall) regardless of work, against 22 \u00b5s for an empty native Metal command buffer. 30,000 single-task bangs took 7.92 s, about 264 \u00b5s each.",
+   "evidence": "research/d/exp/ovhp_out.txt (instrumented gpu_pass; steady-state lines read 'us 389-685'), ovh.bend, ovh1.bend, ovh1_sample.txt (1637/1683 samples in waitUntilCompleted)",
+   "load_bearing": true
+  },
+  {
+   "id": "C14",
+   "domain": "measurement",
+   "claim": "For flat, collapsed full-screen UI frames the CPU pool beats `!`: about 0.97 ms per frame on CPU-12 against 4.8 ms on GPU, counting render, present kernel and drop. The GPU wins only on host-binned scenes (N=1024 cards: 5.1 ms GPU vs 8.3 ms CPU-12).",
+   "evidence": ".../scratchpad/d/exp/image.bend, image200*.bend and i200*.txt logs; .../d/exp/scene2.bend (host-binned) and scene.bend (cull inside bang: 26.4 ms GPU vs 8.3 ms CPU at N=1024). M3 Pro under load average about 5.4.",
+   "load_bearing": true
+  },
+  {
+   "id": "C15",
+   "domain": "measurement",
+   "claim": "Bend device code itself runs near native speed. A 2.08 MP rounded-rect SDF frame takes 0.665 ms median on GPU through Bend, against 0.351 ms wall (0.184 ms GPU-side) for hand-written Metal. Single-threaded, Bend takes 25.6 ms against 20.2 ms for C -O3.",
+   "evidence": ".../scratchpad/d/exp/sdf.bend, native.m, gpu.txt, cpu1.txt, cpu12.txt (checksums match: 119989906)",
+   "load_bearing": false
+  },
+  {
+   "id": "C16",
+   "domain": "bend-language",
+   "claim": "Bend has only Nat, U32 and F32: no U64, I64 or F64. GPUI's i32 DevicePixels, isize tab_index and 64-bit entity ids and hashes must be re-encoded in U32, using two's complement for signed values.",
+   "evidence": ".../scratchpad/b/bend/README.md:230 ('Numbers are Nat, U32 and F32 only: no U64, I64 or F64'); .../scratchpad/b/bend/WONTFIX.txt SOON entries #1027 (U64) and #1120 (F64)",
+   "load_bearing": false
+  },
+  {
+   "id": "C17",
+   "domain": "bend-language",
+   "claim": "Base `Map` is keyed by String only, so an id-keyed entity or element-state store has to be written from scratch.",
+   "evidence": ".../scratchpad/b/bend/bend2/base.bend:86-89 (`MLeaf{key: String, val: V}`)",
+   "load_bearing": false
+  },
+  {
+   "id": "C18",
+   "domain": "gpui",
+   "claim": "zui is 152,848 lines of Rust plus 4,530 shader lines. crates/gpui alone is 75,141 lines. The resolved normal-dependency closure of gpui_platform on aarch64-apple-darwin is 301 crates, including taffy (22,150 lines) and cosmic-text/swash. A line-by-line Bend port is therefore person-years of work.",
+   "evidence": "`find crates/gpui -name '*.rs' | xargs cat | wc -l` in .../scratchpad/a/zui; `cargo tree --offline --locked -p gpui_platform -e normal --target aarch64-apple-darwin --prefix none | sort -u | wc -l`. Shaders: shaders.metal 1,377 + HLSL 1,504 + WGSL 1,649 (shaders.wgsl 1,590 + shaders_subpixel.wgsl 59).",
+   "load_bearing": true
+  },
+  {
+   "id": "C19",
+   "domain": "gpui",
+   "claim": "zui's MacPlatform::run calls blocking `app.run()` (NSApplication run) unless headless, and `Application::run_embedded` just calls `platform.run`, so on macOS it still blocks. zui contains no `pump_events` or `new_embedded`, which gpuix gets from its remorses/zed fork.",
+   "evidence": ".../scratchpad/a/zui/crates/gpui_macos/src/platform.rs:494-520; .../a/zui/crates/gpui/src/app.rs:246-257. `grep -rn 'pump_events\\|new_embedded' .../a/zui/crates` matches only run_embedded and comments.",
+   "load_bearing": true
+  },
+  {
+   "id": "C20",
+   "domain": "bend-runtime-gpu",
+   "claim": "Bend has no native library target, so a host such as GPUI cannot call Bend defs through a supported interface. Embedding precedents rely on runtime internals instead: godot-bend pastes C that calls io_step and corpus_setup and resumes a parked effect.",
+   "evidence": ".../scratchpad/b/bend/WONTFIX.txt:146 ('A native library target for pure defs (#813)', SOON / not scheduled); .../scratchpad/c/eco/godot-bend/godot/godot.c:479-494, 611-615; .../scratchpad/b/exp/cb (corpus_eval re-entry hack printed 'callback result: 1042')",
+   "load_bearing": true
+  },
+  {
+   "id": "C21",
+   "domain": "prior-art",
+   "claim": "A large native desktop UI drawn by Bend already exists. backplane-bend has 91,425 lines of .bend and 11,339 lines of .c, with its own dlopen'd X11 window effect (resize, text, wheel, clipboard) because Base's Window lacks these.",
+   "evidence": "`find .../scratchpad/c/eco/backplane-bend -name '*.bend' | xargs cat | wc -l` = 91425, and for '*.c' = 11339 (rerun by reconciler). .../c/eco/backplane-bend/src/app/effects/win.c:4-5 ('Base's Window is fixed-size and reports no text, wheel, resize or clipboard, so the app has its own'), line 60 dlopen(libX11.so.6).",
+   "load_bearing": true
+  },
+  {
+   "id": "C22",
+   "domain": "prior-art",
+   "claim": "'gpuix' (remorses/gpuix) is a binding, not a rewrite. Its native package is a 26,125-line Rust napi cdylib over a forked GPUI (remorses/zed, branch gpuix), driven by a JS reconciler's applyBatch mutations.",
+   "evidence": "`find .../scratchpad/c/gpuix/packages/native/src -name '*.rs' | xargs cat | wc -l` = 26125 (rerun by reconciler); .../c/gpuix/.gitmodules; .../c/gpuix/packages/native/src/renderer.rs:1146-1205 (new_embedded/run_embedded/pump_events), 6296-6335 (applyBatch ops)",
+   "load_bearing": true
+  },
+  {
+   "id": "C23",
+   "domain": "prior-art",
+   "claim": "All three non-Rust GPUI frontends found bind native GPUI over FFI rather than reimplementing it: gpuix (napi), gpui-moonbit (Rust staticlib plus cbindgen header, 6,498-line lib.rs) and gpui-react (Bun FFI).",
+   "evidence": ".../scratchpad/c/gpuix, .../scratchpad/c/gpui-moonbit (src/lib.rs, docs/architecture.md \u00a74b, \u00a711), .../scratchpad/c/gpui-react/rust/src/renderer.rs:318-336",
+   "load_bearing": false
+  },
+  {
+   "id": "C24",
+   "domain": "bend-runtime-gpu",
+   "claim": "Window.frame is a need-0 effect that runs inline in io_step's loop, so a render loop that never parks starves timers and channels. A spawned 50 ms ticker saw a 1,699 ms gap until IO.sleep(0) was added per frame.",
+   "evidence": ".../scratchpad/b/bend/bend2/comp.ts:5863-5867 (need-0 inline loop); .../scratchpad/b/exp/conc (gap 1699 ms) vs .../b/exp/conc2 (gaps 50-58 ms)",
+   "load_bearing": false
+  },
+  {
+   "id": "C25",
+   "domain": "bend-runtime-gpu",
+   "claim": "Every App.run program contains a bang, because App.turn drops the previous frame with `Image.drop!(image)`. Such programs require clang 19 / Apple clang 17 and ship a `.gpu` archive beside the binary.",
+   "evidence": ".../scratchpad/b/bend/bend2/base.bend:2954 (`Unit <- IO.pure(Unit, Image.drop!(image))`, inside App.turn defined at 2947); .../b/bend/bend2/main.ts:425-427, 438-439 (bangs -> cc_find(bangs) and --gpu-build step)",
+   "load_bearing": false
+  }
+ ],
+ "contradictions": [
+  "Unresolved, which executor to rasterize UI frames on. bend-capabilities measured the `!` variant beating the CPU-parallel variant about 2x at 1920x1200 (1901 vs 3290 ms over 180 frames), but that held even with `--gpu off`, so the gap may have nothing to do with the GPU, and the runs were vsync-capped. gpu-render-path found the CPU pool beats `!` on flat UI frames (0.97 vs 4.8 ms) and saw unexplained bimodal GPU times (about 0.8 vs 8.2 ms per bang). Neither explorer confirmed whether a `!` inside App.run's `view` actually runs on the GPU, given WONTFIX #1065.",
+  "Partly unresolved, host-to-Bend callbacks. prior-art says Bend has no mechanism for them (no library target, #813). bend-capabilities got a synchronous closure callback working by re-entering corpus_eval (scratchpad/b/exp/cb), but only in a trivial case. Nobody tested whether that hack is safe while the thread pool is busy, inside Cocoa callbacks fired during window_wait, or when the callback forks or bangs. This decides whether synchronous IME queries (NSTextInputClient) can be answered from Bend.",
+  "Unresolved, what the user means by 'gpuix'. prior-art reads it as remorses/gpuix, which is a binding over native GPUI (P4/P5). The user also says 'fully written in bend', which implies a rewrite (P2/P3). The clones cannot settle this; the user has to.",
+  "RESOLVED, text access. gpu-render-path said there is 'no font rasterizer, shaper or CoreText access in Bend'. Three explorers verified CoreText measurement and glyph rasterization from a foreign `.c` effect. Reconciled: CoreText is reachable from IO effects, but not from pure or `!` code.",
+  "RESOLVED, window count. prior-art lists 'one window' among Base Window gaps. bend-capabilities measured two macOS windows framed alternately (240 rounds in 2310 ms). window.c keeps per-window state in each BendView/NSWindow, and only the device, queue and pipeline are static globals.",
+  "RESOLVED, embedding. gpu-render-path says that for P4 'Bend must be the host binary'. prior-art's godot-bend precedent shows Bend embedded as a shared library under a host-owned loop. Both hold: embedding is possible only by calling runtime internals, with no supported API.",
+  "RESOLVED, minor numbers. The Image.drop! line is base.bend:2954, while 2947 is the App.turn def line. The WGSL count of 1,649 is shaders.wgsl (1,590) plus shaders_subpixel.wgsl (59)."
+ ]
+}

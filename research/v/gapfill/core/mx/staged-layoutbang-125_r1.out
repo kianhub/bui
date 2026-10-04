@@ -1,0 +1,32 @@
+elements 501 rows 125
+f 0 view_us 25 layout_us 80765 paint_us 112 hit_us 3 core_us 80905 nq 126 ns 7748 c 1
+f 1 view_us 27 layout_us 14221 paint_us 54 hit_us 1 core_us 14303 nq 126 ns 7748 c 2
+f 2 view_us 37 layout_us 15536 paint_us 57 hit_us 2 core_us 15632 nq 126 ns 7749 c 3
+f 3 view_us 34 layout_us 14240 paint_us 60 hit_us 1 core_us 14335 nq 126 ns 7750 c 4
+f 4 view_us 46 layout_us 14453 paint_us 63 hit_us 2 core_us 14564 nq 126 ns 7750 c 5
+f 5 view_us 43 layout_us 14332 paint_us 66 hit_us 1 core_us 14442 nq 126 ns 7750 c 6
+f 6 view_us 45 layout_us 14247 paint_us 68 hit_us 1 core_us 14361 nq 126 ns 7750 c 7
+f 7 view_us 36 layout_us 15744 paint_us 92 hit_us 2 core_us 15874 nq 126 ns 7750 c 8
+f 8 view_us 42 layout_us 14449 paint_us 68 hit_us 2 core_us 14561 nq 126 ns 7750 c 9
+f 9 view_us 48 layout_us 14420 paint_us 74 hit_us 2 core_us 14544 nq 126 ns 7751 c 10
+f 10 view_us 47 layout_us 14445 paint_us 74 hit_us 1 core_us 14567 nq 126 ns 7752 c 11
+f 11 view_us 48 layout_us 14381 paint_us 75 hit_us 2 core_us 14506 nq 126 ns 7752 c 12
+f 12 view_us 48 layout_us 14382 paint_us 79 hit_us 2 core_us 14511 nq 126 ns 7752 c 13
+f 13 view_us 57 layout_us 15967 paint_us 87 hit_us 2 core_us 16113 nq 126 ns 7752 c 14
+f 14 view_us 38 layout_us 14421 paint_us 76 hit_us 2 core_us 14537 nq 126 ns 7752 c 15
+f 15 view_us 58 layout_us 14352 paint_us 82 hit_us 2 core_us 14494 nq 126 ns 7752 c 16
+f 16 view_us 56 layout_us 14407 paint_us 78 hit_us 2 core_us 14543 nq 126 ns 7753 c 16
+f 17 view_us 47 layout_us 14410 paint_us 93 hit_us 2 core_us 14552 nq 126 ns 7753 c 16
+f 18 view_us 54 layout_us 14435 paint_us 82 hit_us 2 core_us 14573 nq 126 ns 7753 c 16
+f 19 view_us 51 layout_us 14455 paint_us 88 hit_us 2 core_us 14596 nq 126 ns 7753 c 16
+f 20 view_us 51 layout_us 14385 paint_us 83 hit_us 2 core_us 14521 nq 126 ns 7753 c 16
+f 21 view_us 51 layout_us 14303 paint_us 85 hit_us 2 core_us 14441 nq 126 ns 7753 c 16
+f 22 view_us 53 layout_us 14281 paint_us 90 hit_us 2 core_us 14426 nq 126 ns 7753 c 16
+f 23 view_us 51 layout_us 14348 paint_us 85 hit_us 1 core_us 14485 nq 126 ns 7753 c 16
+f 24 view_us 52 layout_us 14292 paint_us 86 hit_us 1 core_us 14431 nq 126 ns 7753 c 16
+f 25 view_us 56 layout_us 14332 paint_us 92 hit_us 2 core_us 14482 nq 126 ns 7753 c 16
+f 26 view_us 56 layout_us 14380 paint_us 91 hit_us 2 core_us 14529 nq 126 ns 7753 c 16
+f 27 view_us 56 layout_us 14450 paint_us 89 hit_us 2 core_us 14597 nq 126 ns 7753 c 16
+f 28 view_us 53 layout_us 14319 paint_us 92 hit_us 1 core_us 14465 nq 126 ns 7753 c 16
+f 29 view_us 54 layout_us 15884 paint_us 135 hit_us 2 core_us 16075 nq 126 ns 7753 c 16
+done c 16

@@ -1,0 +1,29 @@
+before: counter=0 check=False level=0.25
+after:  counter=12 check=True level=0.75
+(0,0 800x313.8)
+  (16,16 768x28.8) text=Counter
+  (16,52.8 768x40)
+    (20,58.4 20.400002x28.8) text=- on_click=Dec(0)
+    (48.4,58.399998 28.800001x28.800001) text=12
+    (85.200005,58.4 20.400002x28.8) text=+ on_click=Inc(0,1)
+    (113.600006,72.8 578x0)
+    (699.6,63.6 18.400002x18.4) text=12
+    (726,58.4 54x28.8) text=reset on_click=Reset(0)
+  (16,100.8 768x28)
+    (20,106.8 16x16) on_click=Toggle(1)
+    (44,106.4 58.800003x16.8) text=enabled
+    (110.8,106.8 32x16) on_click=Toggle(1)
+  (16,136.8 768x24)
+    (20,140.8 120x16) bar=0.75 on_click=SetLevel(2)
+    (660,140.8 120x16) bar=0.75
+  (16,168.8 768x64)
+    (16,168.8 768x64)
+    (16,168.8 768x64)
+  (16,240.8 768x1)
+  (16,249.8 768x48)
+    (506.4,265.4 33.600002x16.8) text=docs on_click=Focus(7)
+    (548,265.4 160x16.8) text=type here on_click=Focus(8)
+    (716,261.8 24x24) on_click=Inc(0,10)
+    (748,257.8 32x32)
+
+imap 7->70 8->80 max->99 9->none

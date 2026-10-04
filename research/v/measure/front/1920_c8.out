@@ -1,0 +1,13 @@
+v 1 n 64 w 1920 h 1200 f 0 build_us 910 render_us 73699 present_us 1683 drop_us 1164 frame_us 77456 rss_kb 17296
+v 1 n 64 w 1920 h 1200 f 1 build_us 1104 render_us 3380 present_us 368 drop_us 2386 frame_us 7238 rss_kb 20624
+v 1 n 64 w 1920 h 1200 f 2 build_us 1099 render_us 3528 present_us 358 drop_us 1050 frame_us 6035 rss_kb 23984
+v 1 n 64 w 1920 h 1200 f 3 build_us 936 render_us 9823 present_us 317 drop_us 2467 frame_us 13543 rss_kb 26256
+v 1 n 64 w 1920 h 1200 f 4 build_us 906 render_us 2998 present_us 365 drop_us 2168 frame_us 6437 rss_kb 27952
+v 1 n 64 w 1920 h 1200 f 5 build_us 970 render_us 2941 present_us 365 drop_us 1120 frame_us 5396 rss_kb 30272
+v 1 n 64 w 1920 h 1200 f 6 build_us 941 render_us 3794 present_us 381 drop_us 1153 frame_us 6269 rss_kb 32128
+v 1 n 64 w 1920 h 1200 f 7 build_us 917 render_us 10056 present_us 361 drop_us 1386 frame_us 12720 rss_kb 33520
+v 1 n 64 w 1920 h 1200 f 8 build_us 984 render_us 11252 present_us 368 drop_us 2243 frame_us 14847 rss_kb 34976
+v 1 n 64 w 1920 h 1200 f 9 build_us 933 render_us 3161 present_us 395 drop_us 2217 frame_us 6706 rss_kb 36368
+v 1 n 64 w 1920 h 1200 f 10 build_us 895 render_us 3217 present_us 380 drop_us 2157 frame_us 6649 rss_kb 37856
+v 1 n 64 w 1920 h 1200 f 11 build_us 874 render_us 9709 present_us 418 drop_us 1344 frame_us 12345 rss_kb 38912
+done rss_kb 38912

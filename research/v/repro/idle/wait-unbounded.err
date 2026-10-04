@@ -1,0 +1,79 @@
+bend: compiling the GPU program (research/v/repro/p3/p3idle.gpu is missing or stale)
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 15.79 events 3
+p3 mode 0 walk_us 463.1 encode_us 682.5 gpu_us 4629 wall_us 22148 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 72.65 events 1
+p3 mode 0 walk_us 22.1 encode_us 138.5 gpu_us 591 wall_us 1300 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.28 events 0
+p3 mode 0 walk_us 37.5 encode_us 125.1 gpu_us 1381 wall_us 2230 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1002.04 events 0
+p3 mode 0 walk_us 39.9 encode_us 122.5 gpu_us 1381 wall_us 2201 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.20 events 0
+p3 mode 0 walk_us 30.9 encode_us 121.2 gpu_us 1382 wall_us 2712 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.21 events 0
+p3 mode 0 walk_us 41.5 encode_us 134.9 gpu_us 1379 wall_us 2405 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.24 events 0
+p3 mode 0 walk_us 129.2 encode_us 127.0 gpu_us 1381 wall_us 2625 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.12 events 0
+p3 mode 0 walk_us 20.0 encode_us 125.5 gpu_us 1379 wall_us 2845 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.99 events 0
+p3 mode 0 walk_us 39.1 encode_us 117.8 gpu_us 1381 wall_us 3102 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.40 events 0
+p3 mode 0 walk_us 35.7 encode_us 126.6 gpu_us 1379 wall_us 2459 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1002.07 events 0
+p3 mode 0 walk_us 20.5 encode_us 120.8 gpu_us 1379 wall_us 2668 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.51 events 0
+p3 mode 0 walk_us 26.4 encode_us 125.6 gpu_us 1378 wall_us 2524 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.57 events 0
+p3 mode 0 walk_us 44.0 encode_us 124.8 gpu_us 1379 wall_us 2952 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1002.08 events 0
+p3 mode 0 walk_us 40.5 encode_us 133.2 gpu_us 1383 wall_us 2750 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.38 events 0
+p3 mode 0 walk_us 21.1 encode_us 128.9 gpu_us 1380 wall_us 2423 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.70 events 0
+p3 mode 0 walk_us 40.0 encode_us 107.2 gpu_us 695 wall_us 2598 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.83 events 0
+p3 mode 0 walk_us 32.9 encode_us 105.8 gpu_us 1381 wall_us 2389 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.52 events 0
+p3 mode 0 walk_us 34.2 encode_us 120.2 gpu_us 1379 wall_us 2893 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.38 events 0
+p3 mode 0 walk_us 40.9 encode_us 132.1 gpu_us 1384 wall_us 2803 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1002.08 events 0
+p3 mode 0 walk_us 17.9 encode_us 123.5 gpu_us 1379 wall_us 2285 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.00 events 0
+p3 mode 0 walk_us 20.8 encode_us 115.2 gpu_us 1379 wall_us 2430 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1002.10 events 0
+p3 mode 0 walk_us 18.8 encode_us 145.7 gpu_us 1380 wall_us 2373 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.26 events 0
+p3 mode 0 walk_us 44.1 encode_us 125.0 gpu_us 588 wall_us 2003 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1002.09 events 0
+p3 mode 0 walk_us 42.5 encode_us 123.0 gpu_us 1381 wall_us 2191 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.25 events 0
+p3 mode 0 walk_us 40.0 encode_us 128.7 gpu_us 1379 wall_us 2720 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.90 events 0
+p3 mode 0 walk_us 40.5 encode_us 118.7 gpu_us 1380 wall_us 2618 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.55 events 0
+p3 mode 0 walk_us 26.8 encode_us 126.6 gpu_us 1380 wall_us 2671 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1001.35 events 0
+p3 mode 0 walk_us 42.4 encode_us 116.9 gpu_us 1382 wall_us 2772 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.82 events 0
+p3 mode 0 walk_us 17.6 encode_us 115.7 gpu_us 589 wall_us 1532 nq 257 ng 2000 shared 1 w 3024 h 1964
+wait max_ms 1000 bounded 0 soon_ms -1.0 runnable 0 waited_ms 1000.26 events 0
+p3 mode 0 walk_us 38.8 encode_us 121.1 gpu_us 1380 wall_us 2314 nq 257 ng 2000 shared 1 w 3024 h 1964
+       31.44 real         0.09 user         0.12 sys
+            90275840  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                6567  page reclaims
+                  40  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   0  signals received
+                  13  voluntary context switches
+                2084  involuntary context switches
+          1685268969  instructions retired
+           808379326  cycles elapsed
+           267371552  peak memory footprint
